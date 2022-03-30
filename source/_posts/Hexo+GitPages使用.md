@@ -1,7 +1,8 @@
 ---
 title: Hexo+GitPages使用
 date: 2022-03-30 16:37:09
-tags:
+categories: blog
+tags: [blog, hexo]
 ---
 使用Hexo+Next+github pages搭建最简单的博客。
 
