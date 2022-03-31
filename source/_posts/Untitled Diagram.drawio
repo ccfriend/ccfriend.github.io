@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-03-31T09:18:13.401Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" etag="J9S1xUlPkDjJ7_aYJsqx" version="17.3.0" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2022-03-31T09:21:37.032Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" etag="QVa8H0GZXFykM-CcRLfT" version="17.3.0" type="github" pages="3">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="skia">
-    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="942" dy="634" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -93,7 +93,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="gVRpQMXa0dIws9JxUfGL" name="audio">
-    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="942" dy="1803" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -167,7 +167,7 @@
         <mxCell id="HSd8At8ASuMcw_-552kC-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="HSd8At8ASuMcw_-552kC-2" target="HSd8At8ASuMcw_-552kC-12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HSd8At8ASuMcw_-552kC-2" value="deepbuffer" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="HSd8At8ASuMcw_-552kC-2" value="deepbuffer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="270" y="200" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="HSd8At8ASuMcw_-552kC-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="HSd8At8ASuMcw_-552kC-3" target="HSd8At8ASuMcw_-552kC-11">
@@ -188,7 +188,7 @@
         <mxCell id="HSd8At8ASuMcw_-552kC-5" value="AudioTrack" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="345" y="40" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="HSd8At8ASuMcw_-552kC-9" value="deepbuffer module" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="HSd8At8ASuMcw_-552kC-9" value="deepbuffer module" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="270" y="510" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="HSd8At8ASuMcw_-552kC-11" value="offload module" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -199,7 +199,7 @@
             <mxPoint x="5" y="-15" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HSd8At8ASuMcw_-552kC-12" value="resample" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="HSd8At8ASuMcw_-552kC-12" value="resample" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="185" y="300" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="HSd8At8ASuMcw_-552kC-13" value="primary module" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -216,6 +216,19 @@
         </mxCell>
         <mxCell id="HSd8At8ASuMcw_-552kC-19" value="direct module" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="580" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="LOWV1w3dma7jP2NmDJLW-2" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.189;entryY=0.033;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" edge="1" parent="1" source="HSd8At8ASuMcw_-552kC-5" target="HSd8At8ASuMcw_-552kC-13">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="70" y="120" as="sourcePoint" />
+            <mxPoint x="120" y="70" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="210" y="200" />
+              <mxPoint x="120" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LOWV1w3dma7jP2NmDJLW-3" value="mp3/aac" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="200" width="60" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
