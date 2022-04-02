@@ -10,6 +10,8 @@ tags: [blog, hexo]
 
 还有个小技巧，可以在github全站，搜索 github.io，有不少基于Hexo的个人博客，可以参考下别人的实现。这里就要感谢一下：https://github.com/Neveryu/Neveryu.github.io, 从这里找到了一些灵感，才解决了之前遇到的错误。
 
+<!-- more -->
+
 总共分几步：
 1. GitHub创建
 2. Hexo使用

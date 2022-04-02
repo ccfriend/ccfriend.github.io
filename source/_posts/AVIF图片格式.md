@@ -13,10 +13,11 @@ https://zhuanlan.zhihu.com/p/444624167
 https://zhuanlan.zhihu.com/p/355701873
 
 
-
 ## 什么是AVIF
 
 AVIF（ AV1 Image File Format）是一种由AOM（ Alliance for Open Media）开发的基于AV1编解码器的网络图像格式。这是一种开源免版税的图像格式。AVIF支持全分辨率的10位和12位色彩以及HDR。
+
+<!-- more -->
 
 ## AVIF 来源
 视频编解码器中的帧内编码工具与图像压缩工具之间并没有显著的差异。在构建下一代视频编解码器时，它必须能够以更高的效率对关键帧进行编码。有了一个性能优于现有标准的图像编码器，在其基础上建立一个图像编码格式就很简单了。
