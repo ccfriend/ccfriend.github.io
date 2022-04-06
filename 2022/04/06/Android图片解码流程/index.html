@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/myfavicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/myfavicon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ccfriend.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Android图片解码流程Android支持的图片有很多种，压缩图，xml图等等。 对于常用的图片来说，主要是这些网络或资源里存在的压缩格式：  jpeg png webp bmp gif heif ico dng  这里主要针对上述图片格式做流程分析，这些压缩图都是有自己的规范的，在解码流程里，这些压缩图会通过规范解压缩得到位图数据，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android图片解码流程">
+<meta property="og:url" content="https://ccfriend.github.io/2022/04/06/Android%E5%9B%BE%E7%89%87%E8%A7%A3%E7%A0%81%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="技术书房">
+<meta property="og:description" content="Android图片解码流程Android支持的图片有很多种，压缩图，xml图等等。 对于常用的图片来说，主要是这些网络或资源里存在的压缩格式：  jpeg png webp bmp gif heif ico dng  这里主要针对上述图片格式做流程分析，这些压缩图都是有自己的规范的，在解码流程里，这些压缩图会通过规范解压缩得到位图数据，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ccfriend.github.io/images/skia.png">
+<meta property="article:published_time" content="2022-04-06T02:37:16.000Z">
+<meta property="article:modified_time" content="2022-04-06T13:00:17.260Z">
+<meta property="article:author" content="ccfriend">
+<meta property="article:tag" content="image">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ccfriend.github.io/images/skia.png">
+
+<link rel="canonical" href="https://ccfriend.github.io/2022/04/06/Android%E5%9B%BE%E7%89%87%E8%A7%A3%E7%A0%81%E6%B5%81%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android图片解码流程 | 技术书房</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">技术书房</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">4</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccfriend.github.io/2022/04/06/Android%E5%9B%BE%E7%89%87%E8%A7%A3%E7%A0%81%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myavatar.png">
+      <meta itemprop="name" content="ccfriend">
+      <meta itemprop="description" content="技如人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术书房">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android图片解码流程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-06 10:37:16 / 修改时间：21:00:17" itemprop="dateCreated datePublished" datetime="2022-04-06T10:37:16+08:00">2022-04-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/image/" itemprop="url" rel="index"><span itemprop="name">image</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Android图片解码流程"><a href="#Android图片解码流程" class="headerlink" title="Android图片解码流程"></a>Android图片解码流程</h1><p>Android支持的图片有很多种，压缩图，xml图等等。</p>
+<p>对于常用的图片来说，主要是这些网络或资源里存在的压缩格式：</p>
+<ul>
+<li>jpeg</li>
+<li>png</li>
+<li>webp</li>
+<li>bmp</li>
+<li>gif</li>
+<li>heif</li>
+<li>ico</li>
+<li>dng</li>
+</ul>
+<p>这里主要针对上述图片格式做流程分析，这些压缩图都是有自己的规范的，在解码流程里，这些压缩图会通过规范解压缩得到位图数据，</p>
+<span id="more"></span>
+
+<p>一般针对音视频来说，会使用编码、解码这样的描述，但是对于图片来说，压缩、解压缩也更合适一些，可以从函数的定义（Bitmap.compress），文档的描述中（）看出来。不过对于文章描述来说，遵从大家的口语一致性，解码对应解压缩，编码对应压缩，从语境上理解即可，不必过于纠正词语的规范性。</p>
+<p>先贴上一张大图，通览一下整个结构。</p>
+<p><img src="/../images/skia.png" alt="skia"></p>
+<h2 id="位图Bitmap"><a href="#位图Bitmap" class="headerlink" title="位图Bitmap"></a>位图Bitmap</h2><p>Bitmap即位图的翻译，也是Android中位图类的定义。位图一般是指点阵像素图，位图的数据常用RGB颜色域来表达，这个和视频流常用YUV不同。YUV是视频为了降低码率，适应黑白电视的历史而诞生的，是一种传输过程中的数据流。而RGB是需要在显示端，由显示设备对点阵像素进行渲染绘制的。与RGB对应的还有一种三原色，YCM，这种是减色系，主要用于印刷等行业，其原理是不发光，通过光的反射进行颜色的显示，和RGB正好是反色的。</p>
+<p>Bitmap的定义：</p>
+<h2 id="Bitmap解码接口"><a href="#Bitmap解码接口" class="headerlink" title="Bitmap解码接口"></a>Bitmap解码接口</h2><p>android上用于获取Bitmap的接口有两类，</p>
+<ul>
+<li><p>BitmapFactory</p>
+</li>
+<li><p>ImageDecoder</p>
+</li>
+</ul>
+<p>两类接口都可以方便的从各种输入流中返回Bitmap。既然都可以，为什么还要搞两套接口呢？</p>
+<p>ImageDecoder是新引入的接口，这套接口的设计模式偏重于Builder方式，每个不同的参数都需要显式的指定参数.</p>
+<h2 id="skia介绍"><a href="#skia介绍" class="headerlink" title="skia介绍"></a>skia介绍</h2><p>skia是一个开源的2D图形渲染框架，因为简单易用，移植性好，所以广泛被使用，被google运用到了多个项目工程里，包括Android，Chromium，Flutter等。</p>
+<p>skia除了2D图形之外，还包括了一个小的图片解码框架，这部分就被Android 用来做位图解码之用。但是，google是不甘于做拿来主义的，一方面是要做一些优化，另一方面也要针对Android做一些功能扩展。</p>
+<p>skia提供的解码接口使用起来很简单，这样使用：</p>
+<h2 id="BitmapFactory-JNI解码流程"><a href="#BitmapFactory-JNI解码流程" class="headerlink" title="BitmapFactory JNI解码流程"></a>BitmapFactory JNI解码流程</h2><p>BitmapFactory从JNI层开始，引用skia的接口进行处理。原则上，对于Android来说，其实只要合理调用这些接口就行了。</p>
+<p>但是实际上，Android不是简单的直接调用的，而在此之外封装了接口，SkAndroidCodec。</p>
+<p>可以看到BitmapFactory的JNI代码，逻辑很长。</p>
+<h3 id="SkAdroidCodec"><a href="#SkAdroidCodec" class="headerlink" title="SkAdroidCodec"></a>SkAdroidCodec</h3><p>SkAndroidCodec是google基于SkCodec包装的一个类，定义在：</p>
+<p><a target="_blank" rel="noopener" href="https://android-opengrok.bangnimang.net/android-12.0.0_r3/xref/external/skia/include/codec/SkCodec.h">external&#x2F;skia&#x2F;include&#x2F;codec&#x2F;SkCodec.h</a></p>
+<p>是用于对接JNI层的BitmapFactory，主要扩展了几个接口：</p>
+<ul>
+<li>sampleSize的处理</li>
+<li>dimension的控制</li>
+</ul>
+<p>这里面实际包装了一个SkCodec的成员，才是真正包装skia解码接口的地方。</p>
+<h3 id="SkCodec处理流程"><a href="#SkCodec处理流程" class="headerlink" title="SkCodec处理流程"></a>SkCodec处理流程</h3><p>SkCodec是skia中定义的用于编解码图片的接口，定义在：</p>
+<p><a target="_blank" rel="noopener" href="https://android-opengrok.bangnimang.net/android-12.0.0_r3/xref/external/skia/include/codec/SkCodec.h">external&#x2F;skia&#x2F;include&#x2F;codec&#x2F;SkCodec.h</a></p>
+<p>SkStream是对输入数据源的抽象，定义在：</p>
+<p><a target="_blank" rel="noopener" href="https://android-opengrok.bangnimang.net/android-12.0.0_r3/xref/external/skia/include/core/SkStream.h">external&#x2F;skia&#x2F;include&#x2F;core&#x2F;SkStream.h</a></p>
+<h4 id="接口定义"><a href="#接口定义" class="headerlink" title="接口定义"></a>接口定义</h4><p>SkCodec是基类，真正完成解码的是各个实现子类。基类定义了这些接口：</p>
+<p>几个关键接口：</p>
+<ul>
+<li>创建对象：MakeFromStream</li>
+<li>读取信息：getInfo</li>
+<li>解码：getPixels</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> std::unique_ptr&lt;SkCodec&gt; <span class="title">MakeFromStream</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">            std::unique_ptr&lt;SkStream&gt;, Result* = <span class="literal">nullptr</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">            SkPngChunkReader* = <span class="literal">nullptr</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">            SelectionPolicy selectionPolicy = SelectionPolicy::kPreferStillImage)</span></span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  Return a reasonable SkImageInfo to decode into.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *  If the image has an ICC profile that does not map to an SkColorSpace,</span></span><br><span class="line"><span class="comment">     *  the returned SkImageInfo will use SRGB.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">SkImageInfo <span class="title">getInfo</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> fEncodedInfo.<span class="built_in">makeImageInfo</span>(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">SkISize <span class="title">dimensions</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> &#123;fEncodedInfo.<span class="built_in">width</span>(), fEncodedInfo.<span class="built_in">height</span>()&#125;; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Return the ICC profile of the encoded data.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="type">const</span> skcms_ICCProfile* <span class="title">getICCProfile</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  Return a size that approximately supports the desired scale factor.</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  The codec may not be able to scale efficiently to the exact scale</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  factor requested, so return a size that approximates that scale.</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  The returned value is the codec&#x27;s suggestion for the closest valid</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  scale that it can natively support</span></span></span><br><span class="line"><span class="comment"><span class="function">     */</span></span></span><br><span class="line"><span class="function">    SkISize <span class="title">getScaledDimensions</span><span class="params">(<span class="type">float</span> desiredScale)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function">     </span></span><br><span class="line"><span class="function">     <span class="comment">/**</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  Return (via desiredSubset) a subset which can decoded from this codec,</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  or false if this codec cannot decode subsets or anything similar to</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  desiredSubset.</span></span></span><br><span class="line"><span class="comment"><span class="function">     *</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  @param desiredSubset In/out parameter. As input, a desired subset of</span></span></span><br><span class="line"><span class="comment"><span class="function">     *      the original bounds (as specified by getInfo). If true is returned,</span></span></span><br><span class="line"><span class="comment"><span class="function">     *      desiredSubset may have been modified to a subset which is</span></span></span><br><span class="line"><span class="comment"><span class="function">     *      supported. Although a particular change may have been made to</span></span></span><br><span class="line"><span class="comment"><span class="function">     *      desiredSubset to create something supported, it is possible other</span></span></span><br><span class="line"><span class="comment"><span class="function">     *      changes could result in a valid subset.</span></span></span><br><span class="line"><span class="comment"><span class="function">     *      If false is returned, desiredSubset&#x27;s value is undefined.</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  @return true if this codec supports decoding desiredSubset (as</span></span></span><br><span class="line"><span class="comment"><span class="function">     *      returned, potentially modified)</span></span></span><br><span class="line"><span class="comment"><span class="function">     */</span></span></span><br><span class="line"><span class="function">    <span class="type">bool</span> <span class="title">getValidSubset</span><span class="params">(SkIRect* desiredSubset)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function">      </span></span><br><span class="line"><span class="function">     <span class="comment">/**</span></span></span><br><span class="line"><span class="comment"><span class="function">     *  Format of the encoded data.</span></span></span><br><span class="line"><span class="comment"><span class="function">     */</span></span></span><br><span class="line"><span class="function">    SkEncodedImageFormat <span class="title">getEncodedFormat</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>-&gt;<span class="built_in">onGetEncodedFormat</span>(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  Decode into the given pixels, a block of memory of size at</span></span><br><span class="line"><span class="comment">     *  least (info.fHeight - 1) * rowBytes + (info.fWidth *</span></span><br><span class="line"><span class="comment">     *  bytesPerPixel)</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *  Repeated calls to this function should give the same results,</span></span><br><span class="line"><span class="comment">     *  allowing the PixelRef to be immutable.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *  @param info A description of the format (config, size)</span></span><br><span class="line"><span class="comment">     *         expected by the caller.  This can simply be identical</span></span><br><span class="line"><span class="comment">     *         to the info returned by getInfo().</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *         This contract also allows the caller to specify</span></span><br><span class="line"><span class="comment">     *         different output-configs, which the implementation can</span></span><br><span class="line"><span class="comment">     *         decide to support or not.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *         A size that does not match getInfo() implies a request</span></span><br><span class="line"><span class="comment">     *         to scale. If the generator cannot perform this scale,</span></span><br><span class="line"><span class="comment">     *         it will return kInvalidScale.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *         If the info contains a non-null SkColorSpace, the codec</span></span><br><span class="line"><span class="comment">     *         will perform the appropriate color space transformation.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *         If the caller passes in the SkColorSpace that maps to the</span></span><br><span class="line"><span class="comment">     *         ICC profile reported by getICCProfile(), the color space</span></span><br><span class="line"><span class="comment">     *         transformation is a no-op.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *         If the caller passes a null SkColorSpace, no color space</span></span><br><span class="line"><span class="comment">     *         transformation will be done.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *  If a scanline decode is in progress, scanline mode will end, </span></span><br><span class="line"><span class="comment">     *  requiring the client to call</span></span><br><span class="line"><span class="comment">     *  startScanlineDecode() in order to return to decoding scanlines.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *  @return Result kSuccess, or another value explaining the type of failure.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Result <span class="title">getPixels</span><span class="params">(<span class="type">const</span> SkImageInfo&amp; info, <span class="type">void</span>* pixels, <span class="type">size_t</span> rowBytes, <span class="type">const</span> Options*)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  Simplified version of getPixels() that uses the default Options.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Result <span class="title">getPixels</span><span class="params">(<span class="type">const</span> SkImageInfo&amp; info, <span class="type">void</span>* pixels, <span class="type">size_t</span> rowBytes)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>-&gt;<span class="built_in">getPixels</span>(info, pixels, rowBytes, <span class="literal">nullptr</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">Result <span class="title">getPixels</span><span class="params">(<span class="type">const</span> SkPixmap&amp; pm, <span class="type">const</span> Options* opts = <span class="literal">nullptr</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>-&gt;<span class="built_in">getPixels</span>(pm.<span class="built_in">info</span>(), pm.<span class="built_in">writable_addr</span>(), pm.<span class="built_in">rowBytes</span>(), opts);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据第一张图可以发现，实际有7个完成具体工作的子类。</p>
+<h4 id="插件注册"><a href="#插件注册" class="headerlink" title="插件注册"></a>插件注册</h4><p>skia里使用了插件的方式，注册了各种格式类型的图片的插件，用于不同格式的解码。</p>
+<p>这个插件的定义简单有效，是值得学习的，是两个函数指针，然后各个插件实现，只要返回一个SkCodec对象就可以了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">DecoderProc</span> &#123;</span><br><span class="line">    <span class="built_in">bool</span> (*IsFormat)(<span class="type">const</span> <span class="type">void</span>*, <span class="type">size_t</span>);</span><br><span class="line">    std::<span class="built_in">unique_ptr</span>&lt;SkCodec&gt; (*MakeFromStream)(std::unique_ptr&lt;SkStream&gt;, SkCodec::Result*);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>以下是注册的函数，skia支持注册自己实现的类或者说插件进行解码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Register a decoder at runtime by passing two function pointers:</span></span><br><span class="line"><span class="comment">//    - peek() to return true if the span of bytes appears to be your encoded format;</span></span><br><span class="line"><span class="comment">//    - make() to attempt to create an SkCodec from the given stream.</span></span><br><span class="line"><span class="comment">// Not thread safe.</span></span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">Register</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">bool</span>                     (*peek)(<span class="type">const</span> <span class="type">void</span>*, <span class="type">size_t</span>),</span></span></span><br><span class="line"><span class="params"><span class="function">        std::unique_ptr&lt;SkCodec&gt; (*make)(std::unique_ptr&lt;SkStream&gt;, SkCodec::Result*))</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>skia框架里默认实现了常见的各种图片格式的注册，一般都是用这些默认的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> std::vector&lt;DecoderProc&gt;* <span class="title">decoders</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="keyword">auto</span>* decoders = <span class="keyword">new</span> std::vector&lt;DecoderProc&gt; &#123;</span><br><span class="line">    <span class="meta">#<span class="keyword">ifdef</span> SK_CODEC_DECODES_JPEG</span></span><br><span class="line">        &#123; SkJpegCodec::IsJpeg, SkJpegCodec::MakeFromStream &#125;,</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    <span class="meta">#<span class="keyword">ifdef</span> SK_CODEC_DECODES_WEBP</span></span><br><span class="line">        &#123; SkWebpCodec::IsWebp, SkWebpCodec::MakeFromStream &#125;,</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    <span class="meta">#<span class="keyword">ifdef</span> SK_HAS_WUFFS_LIBRARY</span></span><br><span class="line">        &#123; SkWuffsCodec_IsFormat, SkWuffsCodec_MakeFromStream &#125;,</span><br><span class="line">    <span class="meta">#<span class="keyword">elif</span> defined(SK_USE_LIBGIFCODEC)</span></span><br><span class="line">        &#123; SkGifCodec::IsGif, SkGifCodec::MakeFromStream &#125;,</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    <span class="meta">#<span class="keyword">ifdef</span> SK_CODEC_DECODES_PNG</span></span><br><span class="line">        &#123; SkIcoCodec::IsIco, SkIcoCodec::MakeFromStream &#125;,</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">        &#123; SkBmpCodec::IsBmp, SkBmpCodec::MakeFromStream &#125;,</span><br><span class="line">        &#123; SkWbmpCodec::IsWbmp, SkWbmpCodec::MakeFromStream &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> decoders;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以jpeg为例，可以具体看下，每个插件怎么识别类型的：</p>
+<p>jpeg文件开头是固定的0xFF, 0xD8, 0xFF：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SkJpegCodec::IsJpeg</span><span class="params">(<span class="type">const</span> <span class="type">void</span>* buffer, <span class="type">size_t</span> bytesRead)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="type">uint8_t</span> jpegSig[] = &#123; <span class="number">0xFF</span>, <span class="number">0xD8</span>, <span class="number">0xFF</span> &#125;;</span><br><span class="line">    <span class="keyword">return</span> bytesRead &gt;= <span class="number">3</span> &amp;&amp; !<span class="built_in">memcmp</span>(buffer, jpegSig, <span class="built_in">sizeof</span>(jpegSig));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="插件调用"><a href="#插件调用" class="headerlink" title="插件调用"></a>插件调用</h4><p>实际使用的时候，就是遍历所有的decoders，根据peek的结果检查是否是对应的格式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">// PNG is special, since we want to be able to supply an SkPngChunkReader.</span></span><br><span class="line">    <span class="comment">// But this code follows the same pattern as the loop.</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> SK_CODEC_DECODES_PNG</span></span><br><span class="line">    <span class="keyword">if</span> (SkPngCodec::<span class="built_in">IsPng</span>(buffer, bytesRead)) &#123;</span><br><span class="line">        <span class="keyword">return</span> SkPngCodec::<span class="built_in">MakeFromStream</span>(std::<span class="built_in">move</span>(stream), outResult, chunkReader);</span><br><span class="line">    &#125; <span class="keyword">else</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (DecoderProc proc : *<span class="built_in">decoders</span>()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (proc.<span class="built_in">IsFormat</span>(buffer, bytesRead)) &#123;</span><br><span class="line">                <span class="keyword">return</span> proc.<span class="built_in">MakeFromStream</span>(std::<span class="built_in">move</span>(stream), outResult);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> SK_HAS_HEIF_LIBRARY</span></span><br><span class="line">        SkEncodedImageFormat format;</span><br><span class="line">        <span class="keyword">if</span> (SkHeifCodec::<span class="built_in">IsSupported</span>(buffer, bytesRead, &amp;format)) &#123;</span><br><span class="line">            <span class="keyword">return</span> SkHeifCodec::<span class="built_in">MakeFromStream</span>(std::<span class="built_in">move</span>(stream), selectionPolicy,</span><br><span class="line">                    format, outResult);</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> SK_CODEC_DECODES_RAW</span></span><br><span class="line">        <span class="comment">// Try to treat the input as RAW if all the other checks failed.</span></span><br><span class="line">        <span class="keyword">return</span> SkRawCodec::<span class="built_in">MakeFromStream</span>(std::<span class="built_in">move</span>(stream), outResult);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是skia这里其实做了各种适配，PNG，RAW，HEIF等都是打乱了原来的架构设计，说明实际世界变化太快，代码设计跟不上了，原来都是静态图，对于包含视频帧的图（HEIF，AVIF）是没有预料到的，导致原来的识别方式无法满足了，还要返回一个format用于区分是HEIF还是AVIF。</p>
+<h3 id="解码返回"><a href="#解码返回" class="headerlink" title="解码返回"></a>解码返回</h3><p>对于位图来说，解码得到的就是位图pixels数据buffer，和配套的Info信息，包含了大小、format等。对于数据来说，不需要拷贝返回（也不可能，数据太大了，浪费资源），做地址指针的记录就行；而配套信息，需要包装成java层的对象予以返回。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/image/" rel="tag"># image</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/01/jpeg%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F/" rel="prev" title="jpeg图片格式">
+      <i class="fa fa-chevron-left"></i> jpeg图片格式
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android%E5%9B%BE%E7%89%87%E8%A7%A3%E7%A0%81%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">Android图片解码流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E5%9B%BEBitmap"><span class="nav-number">1.1.</span> <span class="nav-text">位图Bitmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bitmap%E8%A7%A3%E7%A0%81%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.2.</span> <span class="nav-text">Bitmap解码接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#skia%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.3.</span> <span class="nav-text">skia介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BitmapFactory-JNI%E8%A7%A3%E7%A0%81%E6%B5%81%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">BitmapFactory JNI解码流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SkAdroidCodec"><span class="nav-number">1.4.1.</span> <span class="nav-text">SkAdroidCodec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SkCodec%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="nav-number">1.4.2.</span> <span class="nav-text">SkCodec处理流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">接口定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E6%B3%A8%E5%86%8C"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">插件注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E8%B0%83%E7%94%A8"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">插件调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E7%A0%81%E8%BF%94%E5%9B%9E"><span class="nav-number">1.4.3.</span> <span class="nav-text">解码返回</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ccfriend"
+      src="/images/myavatar.png">
+  <p class="site-author-name" itemprop="name">ccfriend</p>
+  <div class="site-description" itemprop="description">技如人生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button motion-element">
+    <a onclick="tidioChatApi.open();"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ccfriend" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ccfriend" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ccfriend</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">12k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  <script src="//code.tidio.co/.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
