@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ccfriend.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"ccfriend.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="总结音频使用到的相关技术，分为如下几个部分：  音频技术概述 音频技术领域 音频技术实践 技术展望">
@@ -56,10 +56,11 @@
 <meta property="og:image" content="https://ccfriend.github.io/images/androidaudio2.png">
 <meta property="og:image" content="https://ccfriend.github.io/images/androidaudio1.png">
 <meta property="og:image" content="https://ccfriend.github.io/images/%E9%AB%98%E9%80%9A3.png">
+<meta property="og:image" content="https://docs.tizen.org/platform/porting/media/797px-audio.png">
 <meta property="og:image" content="https://ccfriend.github.io/images/goodsound1.png">
 <meta property="og:image" content="https://static001.geekbang.org/resource/image/0d/87/0d8f714257c3fff2c621080a31b94c87.jpeg?wh=1920x562">
 <meta property="article:published_time" content="2022-05-02T07:35:38.000Z">
-<meta property="article:modified_time" content="2022-05-04T15:49:40.921Z">
+<meta property="article:modified_time" content="2022-05-08T05:09:29.805Z">
 <meta property="article:author" content="ccfriend">
 <meta property="article:tag" content="audio">
 <meta name="twitter:card" content="summary">
@@ -136,7 +137,6 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -168,41 +168,14 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">5</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a>
 
   </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
   </ul>
 </nav>
 
 
 
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
 
 </div>
     </header>
@@ -256,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-04 23:49:40" itemprop="dateModified" datetime="2022-05-04T23:49:40+08:00">2022-05-04</time>
+                <time title="修改时间：2022-05-08 13:09:29" itemprop="dateModified" datetime="2022-05-08T13:09:29+08:00">2022-05-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -268,20 +241,27 @@
                 </span>
             </span>
 
-          <br>
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>17k</span>
+              <span>18k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>16 分钟</span>
+              <span>17 分钟</span>
             </span>
 
         </div>
@@ -355,38 +335,36 @@
 </li>
 </ul>
 <h1 id="音频技术领域"><a href="#音频技术领域" class="headerlink" title="音频技术领域"></a>音频技术领域</h1><p><img src="/../images/audio1.png" alt="audio1"></p>
-<h2 id="音频基础"><a href="#音频基础" class="headerlink" title="音频基础"></a>音频基础</h2><h3 id="音频基础知识"><a href="#音频基础知识" class="headerlink" title="音频基础知识"></a>音频基础知识</h3><h4 id="声学-1"><a href="#声学-1" class="headerlink" title="声学"></a>声学</h4><p>以下内容参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/daxiangwusheng/article/details/116161987">https://blog.csdn.net/daxiangwusheng/article/details/116161987</a></p>
-<ol>
-<li>声波简介</li>
-</ol>
-<ul>
+<h2 id="音频基础"><a href="#音频基础" class="headerlink" title="音频基础"></a>音频基础</h2><h3 id="声音要素"><a href="#声音要素" class="headerlink" title="声音要素"></a>声音要素</h3><p>以下内容参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/daxiangwusheng/article/details/116161987">https://blog.csdn.net/daxiangwusheng/article/details/116161987</a></p>
+<h4 id="声波简介"><a href="#声波简介" class="headerlink" title="声波简介"></a>声波简介</h4><ul>
 <li>声波是一种纵波。</li>
 <li>声音必须在介质中传播，无论是固体、液体还是气体，都可以作为介质。</li>
 <li>声音在固体中的传播速度最快，其次是液体，声音在气体中传播的速度最慢。</li>
 </ul>
-<ol start="2">
-<li>声波基本量</li>
-</ol>
-<ul>
-<li><p>f：频率，每秒钟振动的次数，单位Hz(赫兹）频率高的声音称为高音，频率低的声音称为低音；人耳对声波频率的主观感觉范围为20Hz~20kHz；低于20Hz为次声波，高于20kHz为超声波。</p>
-</li>
-<li><p>λ：波长，在传播途径上，两相邻同相位质点距离。单位m(米)。声波完成一次振动所走的距离。</p>
-</li>
-<li><p>C：声速，声波在某一介质中1秒钟传播的距离。单位m&#x2F;s。（声速受温度的影响）</p>
-</li>
+<h4 id="声波基本量"><a href="#声波基本量" class="headerlink" title="声波基本量"></a>声波基本量</h4><ul>
+<li>f：频率，每秒钟振动的次数，单位Hz(赫兹）频率高的声音称为高音，频率低的声音称为低音；人耳对声波频率的主观感觉范围为20Hz~20kHz；低于20Hz为次声波，高于20kHz为超声波。</li>
+<li>λ：波长，在传播途径上，两相邻同相位质点距离。单位m(米)。声波完成一次振动所走的距离。</li>
+<li>C：声速，声波在某一介质中1秒钟传播的距离。单位m&#x2F;s。（声速受温度的影响）</li>
 </ul>
-<ol start="3">
-<li>声音的三要素</li>
-</ol>
-<ul>
+<h4 id="声音三要素"><a href="#声音三要素" class="headerlink" title="声音三要素"></a>声音三要素</h4><ul>
 <li><p>响度：又称声强或音量，它表示的是声音能量的强弱程度，主要取决于声波振幅的大小。正常人听觉的强度范围为0dB—140dB。</p>
+<p>单位为Sone 宋，用S表示，定义为1kHz，声压级为40db SPL纯银的响度为1宋。</p>
 </li>
-<li><p>音高：又称音调，表示人耳对声音调子高低的主观感受。客观上音高大小主要取决于声波基频的高低，频率高则音调高，反之则低，单位用赫兹(Hz)表示。</p>
+<li><p>音高：又称音调 pitch，表示人耳对声音调子高低的主观感受。客观上音高大小主要取决于声波基频的高低，频率高则音调高，反之则低，单位用赫兹(Hz)表示。</p>
+<p>Pitch (Mels) &#x3D; 1127loge(1 + f &#x2F; 700)</p>
+<p>基频，2次谐波，3次谐波，感知到基频分量。</p>
+<p>八度？</p>
 </li>
 <li><p>音色：又称音品，由声音波形的谐波频谱和包络决定。声音波形的基频所产生的听得最清楚的音称为基音，各次谐波的微小振动所产生的声音称泛音。单一频率的音称为纯音，具有谐波的音称为复音。</p>
 </li>
 </ul>
-<h4 id="PCM"><a href="#PCM" class="headerlink" title="PCM"></a>PCM</h4><p>参考：<a target="_blank" rel="noopener" href="https://helpx.adobe.com/cn/audition/using/digitizing-audio.html">https://helpx.adobe.com/cn/audition/using/digitizing-audio.html</a></p>
+<h3 id="语音信号"><a href="#语音信号" class="headerlink" title="语音信号"></a>语音信号</h3><p>人用来说话和听觉的集合。</p>
+<h4 id="语音产生"><a href="#语音产生" class="headerlink" title="语音产生"></a>语音产生</h4><p>人声产生的原理，发声器官分为三部分：</p>
+<p>1， 呼吸器官，肺，气管和支气管</p>
+<p>2，喉头和声带，喉部提供激励源，声带振动产生声音</p>
+<p>3，口腔、咽腔、鼻腔构成声道，发音的共鸣器，对声音进行调制。</p>
+<h4 id="语音的发声模型"><a href="#语音的发声模型" class="headerlink" title="语音的发声模型"></a>语音的发声模型</h4><h4 id="语音波形和语谱"><a href="#语音波形和语谱" class="headerlink" title="语音波形和语谱"></a>语音波形和语谱</h4><h4 id="清音和浊音"><a href="#清音和浊音" class="headerlink" title="清音和浊音"></a>清音和浊音</h4><h4 id="语音的基音、谐波、频谱包络"><a href="#语音的基音、谐波、频谱包络" class="headerlink" title="语音的基音、谐波、频谱包络"></a>语音的基音、谐波、频谱包络</h4><h4 id="语音感知"><a href="#语音感知" class="headerlink" title="语音感知"></a>语音感知</h4><p>耳朵</p>
+<h3 id="数字音频基础"><a href="#数字音频基础" class="headerlink" title="数字音频基础"></a>数字音频基础</h3><h4 id="PCM"><a href="#PCM" class="headerlink" title="PCM"></a>PCM</h4><p>参考：<a target="_blank" rel="noopener" href="https://helpx.adobe.com/cn/audition/using/digitizing-audio.html">https://helpx.adobe.com/cn/audition/using/digitizing-audio.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/447712">https://time.geekbang.org/column/article/447712</a></p>
 <p>在自然界中，声音是连续不断的，是一种模拟信号，但是计算机和我们的芯片都是在数字领域来处理的，我们就需要数字化，即转换为数字信号。声音是一种波，有自己的振幅和频率，那么要保存声音，就要保存声音在各个时间点上的振幅。<br>而数字信号并不能连续保存所有时间点的振幅，事实上，并不需要保存连续的信号，就可以还原到人耳可接受的声<br>音。根据奈奎斯特采样定理：为了不失真地恢复模拟信号，采样频率应该不小于模拟信号频谱中最高频率的2倍。<br>根据以上分析，PCM的采集步骤分为以下步骤：</p>
 <p>模拟信号 -&gt; 采样 -&gt; 量化 -&gt; 编码 -&gt; 数字信号</p>
@@ -417,9 +395,6 @@
 <p><img src="/../images/pcm1.png" alt="pcm1"></p>
 <h4 id="码率"><a href="#码率" class="headerlink" title="码率"></a>码率</h4><p>码率代表了声音的数据量，以48K，16bit，2ch为例，计算的码率，每秒的数据量为：</p>
 <p>比特带宽&#x2F;码率 &#x3D; 采样位深×采样率×通道数 &#x3D; 48000 * 16 * 2 &#x3D; 1536000bps &#x3D;1500Kbps &#x3D; 1.46Mbps</p>
-<h4 id="MIDI"><a href="#MIDI" class="headerlink" title="MIDI"></a>MIDI</h4><p>在音乐世界里，还有一种专门针对音乐的编码格式。</p>
-<p>MIDI全称是Musical Instrument Digital Interface顾名思义是一种音乐乐器的记录格式。以钢琴为例，MIDI文件记录了时间序列中每个钢琴音的起止位置、按键力度等信息。很显然光有MIDI文件你是听不到声音的还需要有一个记录了乐器各种音的音调的音源库配套使用，比如文件记录在第3秒要弹一个C4的音，然后就去音源库把C4的音源按时间拼接上去，最后依次把所有的乐器音都拼接起来就成了可播放的音频文件。起初各大厂商MIDI文件格式都不太统一。直到后来MIDI1.0标准的发布各家厂商遍都遵循了相同的标准。现在已经发展到MIDI2.0了。</p>
-<h4 id="音乐信号处理"><a href="#音乐信号处理" class="headerlink" title="音乐信号处理"></a>音乐信号处理</h4><p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/452960">03｜如何分析与处理音乐信号？ (geekbang.org)</a></p>
 <h4 id="音频质量评价"><a href="#音频质量评价" class="headerlink" title="音频质量评价"></a>音频质量评价</h4><p>参考：<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/459470">04｜如何评价音频质量的好与坏？ (geekbang.org)</a></p>
 <p>音频的评价方法主要有两种。</p>
 <p>一种是主观评价，即组织足够数量的人来听被测音频样本，并给每个被测样本打分，最后根据测试人打分的高低来评判音频质量的好坏。主观测试是音频评价的黄金准则，这样的评价是最符合人的实际听感的。但是主观评测费时费力，在算法迭代、研发等中间过程中不一定是最经济的方案。</p>
@@ -439,10 +414,13 @@
 <li>无参考音频质量评价</li>
 </ul>
 <p>不需要参考信号，仅通过对输入信号本身或参数的分析即可得到一个质量评分。比较著名的无参考客观评价方法有 ITU-T P.563、ANIQUE+、E-model、ITU-T P.1201 等。在ACQUA等实验设备中有集成。</p>
+<h3 id="MIDI"><a href="#MIDI" class="headerlink" title="MIDI"></a>MIDI</h3><p>在音乐世界里，还有一种专门针对音乐的编码格式。</p>
+<p>MIDI全称是Musical Instrument Digital Interface顾名思义是一种音乐乐器的记录格式。以钢琴为例，MIDI文件记录了时间序列中每个钢琴音的起止位置、按键力度等信息。很显然光有MIDI文件你是听不到声音的还需要有一个记录了乐器各种音的音调的音源库配套使用，比如文件记录在第3秒要弹一个C4的音，然后就去音源库把C4的音源按时间拼接上去，最后依次把所有的乐器音都拼接起来就成了可播放的音频文件。起初各大厂商MIDI文件格式都不太统一。直到后来MIDI1.0标准的发布各家厂商遍都遵循了相同的标准。现在已经发展到MIDI2.0了。</p>
+<h3 id="音乐信号处理"><a href="#音乐信号处理" class="headerlink" title="音乐信号处理"></a>音乐信号处理</h3><p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/452960">03｜如何分析与处理音乐信号？ (geekbang.org)</a></p>
 <h2 id="音频编解码"><a href="#音频编解码" class="headerlink" title="音频编解码"></a>音频编解码</h2><p>根据上面码率的计算，可以看到常规的音频大约需要1M的带宽，目前看起来不大，但是技术在进步。</p>
 <p>一方面，多声道，高采样的音频越来越多，另一方面，无线传输和实时音频的诉求越来越强，音频编码技术也同视频编码一样，属于必需品。</p>
 <p>常见的音频编码格式，一般分为无损和有损两类。</p>
-<h4 id="MP3"><a href="#MP3" class="headerlink" title="MP3"></a>MP3</h4><h4 id="AAC"><a href="#AAC" class="headerlink" title="AAC"></a>AAC</h4><p>AAC是高级音频编码（Advanced Audio Coding）的缩写，出现于1997年，最初是基于MPEG-2的音频编码技术。由Fraunhofer IIS、Dolby Laboratories、AT&amp;T、Sony等公司共同开发，目的是取代MP3格式。2000年，MPEG-4标准出台，AAC重新集成了其它技术（PS,SBR），为区别于传统的MPEG-2 AAC，故含有SBR或PS特性的AAC又称为MPEG-4 AAC。</p>
+<h3 id="MP3"><a href="#MP3" class="headerlink" title="MP3"></a>MP3</h3><h3 id="AAC"><a href="#AAC" class="headerlink" title="AAC"></a>AAC</h3><p>AAC是高级音频编码（Advanced Audio Coding）的缩写，出现于1997年，最初是基于MPEG-2的音频编码技术。由Fraunhofer IIS、Dolby Laboratories、AT&amp;T、Sony等公司共同开发，目的是取代MP3格式。2000年，MPEG-4标准出台，AAC重新集成了其它技术（PS,SBR），为区别于传统的MPEG-2 AAC，故含有SBR或PS特性的AAC又称为MPEG-4 AAC。</p>
 <p><img src="/../images/aac-he.png" alt="aac-he"></p>
 <ul>
 <li><p>HE：“High Efficiency”（高效性）。HE-AAC v1（又称AACPlusV1，SBR)，用容器的方法实现了AAC（LC）+SBR技术。SBR其实代表的是Spectral Band Replication(频段复制)。简要叙述一下，音乐的主要频谱集中在低频段，高频段幅度很小，但很重要，决定了音质。如果对整个频段编码，若是为了保护高频就会造成低频段编码过细以致文件巨大；若是保存了低频的主要成分而失去高频成分就会丧失音质。SBR把频谱切割开来，低频单独编码保存主要成分，高频单独放大编码保存音质，“统筹兼顾”了，在减少文件大小的情况下还保存了音质，完美的化解这一矛盾。</p>
@@ -453,10 +431,10 @@
 <p>  AAC格式主要分为两种：ADIF、ADTS。<br>  ADIF：Audio Data Interchange Format。 音频数据交换格式。这种格式的特征是可以确定的找到这个音频数据的<br>  开始，不需进行在音频数据流中间开始的解码，即它的解码必须在明确定义的开始处进行。这种格式常用在磁盘文件<br>  中。</p>
 <p> ADTS：Audio Data Transport Stream。 音频数据传输流。这种格式的特征是它是一个有同步字的比特流，解码可<br>  以在这个流中任何位置开始。它的特征类似于mp3数据流格式。</p>
 <p>  ADTS可以在任意帧解码，它每一帧都有头信息。ADIF只有一个统一的头，所以必须得到所有的数据后解码。<br>  且这两种的header的格式也是不同的，目前一般编码后的都是ADTS格式的音频流。</p>
-<h4 id="WAVE"><a href="#WAVE" class="headerlink" title="WAVE"></a>WAVE</h4><p>WAVE 文件作为多媒体中使用的声波文件格式之一，文件后缀名为 wav。它是以 RIFF 格式为标准的，RIFF 是英文 Resource Interchange File Format 的缩写。因此，每个 WAVE 文件的头四个字节便是“RIFF”。</p>
+<h3 id="WAVE"><a href="#WAVE" class="headerlink" title="WAVE"></a>WAVE</h3><p>WAVE 文件作为多媒体中使用的声波文件格式之一，文件后缀名为 wav。它是以 RIFF 格式为标准的，RIFF 是英文 Resource Interchange File Format 的缩写。因此，每个 WAVE 文件的头四个字节便是“RIFF”。</p>
 <p>WAVE 文件的封装格式十分简单。WAVE 文件由 WAVE 文件头部分和 WAVE 文件数据体部分组成，其中 0～43 字节存放采样率、通道数、数据部分的标识符等头信息，44 字节以后的就是数据部分。简单地理解就是 PCM 文件加一个文件头描述文件的基本信息。具体文件头每个字节的含义可以参考。</p>
 <p><img src="/../images/wav-header.png" alt="wav-header"></p>
-<h4 id="其他常见格式"><a href="#其他常见格式" class="headerlink" title="其他常见格式"></a>其他常见格式</h4><ul>
+<h3 id="其他常见格式"><a href="#其他常见格式" class="headerlink" title="其他常见格式"></a>其他常见格式</h3><ul>
 <li><p>FLAC</p>
 </li>
 <li><p>ALAC</p>
@@ -487,7 +465,7 @@
 <p>简单理解，G.711就是语音模拟信号的一种<strong>非线性量化</strong>， bitrate 是64kbps。</p>
 </li>
 </ul>
-<h4 id="android支持的格式"><a href="#android支持的格式" class="headerlink" title="android支持的格式"></a>android支持的格式</h4><p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/guide/topics/media/media-formats?hl=zh-cn">支持的媒体格式  |  Android 开发者  |  Android Developers (google.cn)</a></p>
+<h3 id="android支持的格式"><a href="#android支持的格式" class="headerlink" title="android支持的格式"></a>android支持的格式</h3><p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/guide/topics/media/media-formats?hl=zh-cn">支持的媒体格式  |  Android 开发者  |  Android Developers (google.cn)</a></p>
 <table>
 <thead>
 <tr>
@@ -590,7 +568,8 @@
 <td>• Ogg (.ogg)• Matroska（.mkv、Android 4.0 及更高版本）</td>
 </tr>
 </tbody></table>
-<h2 id="音效技术"><a href="#音效技术" class="headerlink" title="音效技术"></a>音效技术</h2><h3 id="3A"><a href="#3A" class="headerlink" title="3A"></a>3A</h3><p>音频信号被其移动终端采集模块采集，经过混音消除、降噪、自动增益控制等音频的前处理过程，由音频编码器进行编码。其中前处理过程，Acoustic Echo Cancelling（AEC）、Automatic Gain Control（AGC）、Active Noise Control（ANC，也被称为noise cancellation、noise suppression）的使用方式，俗称 3A。</p>
+<h2 id="音频信号处理"><a href="#音频信号处理" class="headerlink" title="音频信号处理"></a>音频信号处理</h2><p>包含各种音效，语音增强，语音识别等，应用非常广泛。</p>
+<h3 id="3A"><a href="#3A" class="headerlink" title="3A"></a>3A</h3><p>音频信号被其移动终端采集模块采集，经过混音消除、降噪、自动增益控制等音频的前处理过程，由音频编码器进行编码。其中前处理过程，Acoustic Echo Cancelling（AEC）、Automatic Gain Control（AGC）、Active Noise Control（ANC，也被称为noise cancellation、noise suppression）的使用方式，俗称 3A。</p>
 <p>音频3A处理在不同的应用场景三者的处理顺序也不同，如在WebRTC中音频数据回依次经过AEC和NS（noise suppression） 或者 NS 与AECM（AECM 是WebRTC专门为移动端打造的算法，计算量低，而AEC 是为PC打造的）。音频前处理的示意图：</p>
 <p><img src="/../images/%E9%9F%B3%E9%A2%91%E5%89%8D%E5%A4%84%E7%90%86.png" alt="音频前处理"></p>
 <h4 id="AEC"><a href="#AEC" class="headerlink" title="AEC"></a>AEC</h4><p>声学回声消除（Acoustic Echo Cancellation, 简称 AEC)。</p>
@@ -619,9 +598,9 @@
 <h4 id="AGC"><a href="#AGC" class="headerlink" title="AGC"></a>AGC</h4><p>自动增益控制（AGC）是指当功放工作于最大增益且输出为最大功率时，增加输入信号电平，提高直放站对输出信号电平控制的能力。自动增益控制主要用于调整音量幅值。</p>
 <p>正常人交谈的音量在40~60dB之间，低于25dB的声音听起来很吃力，超过100dB的声音会让人不适。AGC的作用就是将音量调整到人接受的范围。</p>
 <p>AGC的调整分为模拟部分和数字部分，模拟部分是麦克风的采集增益，数字部分是音频数据的数字电平调整。</p>
-<h3 id="EQ、混响、变调"><a href="#EQ、混响、变调" class="headerlink" title="EQ、混响、变调"></a>EQ、混响、变调</h3><p>改变声音在不同频率的能量分布的方法就是 EQ，也就是均衡器（Equalizer）。那么我们是如何实现一个均衡器来对不同频段的能量进行调整的呢？其实均衡器就是一组滤波器，比如常见的高通、低通、带通、带阻等形式。这些可能你之前在大学里的数字信号处理课程里学过。看字面意思应该就可以理解，高通、低通和带通就是让高频、低频或者某个频带的音频保留，而其它的频带都加以削弱，而带阻就是削弱某个频带的音频能量。比如我们觉得人声中齿音太多，想要去齿音，可以在 10kHz～14kHz 左右加一个带通滤波器，削减一下这部分的能量。音频滤波器有很多种，比如常用的 FIR（Finite Impulse Response）和 IIR（Infinite Impulse Response）Filter。</p>
-<p>不同的人发音的基频是不一样的。而音调和基频是直接相关的，要变调其实就是要改变基频。而基频的本质是一个信号的循环周期的倒数，比如基频是 250Hz，那么当前时间的语音信号就是以 4ms 为周期的信号。我们要变调，其实就是把这个循环周期进行扩大或者缩小。那么我们是如何实现音调提升的呢？其实方法很简单，就是把原来的信号进行重采样，但不改变播放信号的采样率。简单来说，比如把原来 20ms 的音频每两个点取一个点，然后按照相同的采样率进行播放，这样 10ms 内需要播放原来 20ms 的内容。这样一来，原本的信号循环时间周期就变成了二分之一，从而实现了升调。但这里有个问题，因为每一段时间内需要播放的音频信号的采样点是固定的。也就是说，通过下采样的方法，音频从原来的 20ms 缩短成了 10ms。直观的感受就是这个人的音调变高了，但说话的语速也变快了，也就是变速又变调。但我们想实现的变声只是改变音调，也就是所谓的“变调不变速”。其实，实现的方法也很简单，核心思想就是通过把音频中的信号按照一定的规律拼接起来，把音频的长度拉长或者缩短，这就是第一种变调算法 OLA（Overlap-and-Add）。</p>
-<p>混响信号可以看作是直达声和许多逐步衰减、不断延迟的回声信号叠加而成的。假设一个衰减系数 a 和延迟 D，那么混响信号 y(n) 可以用下面的等比数列来表示：</p>
+<h3 id="EQ"><a href="#EQ" class="headerlink" title="EQ"></a>EQ</h3><p>改变声音在不同频率的能量分布的方法就是 EQ，也就是均衡器（Equalizer）。那么我们是如何实现一个均衡器来对不同频段的能量进行调整的呢？其实均衡器就是一组滤波器，比如常见的高通、低通、带通、带阻等形式。这些可能你之前在大学里的数字信号处理课程里学过。看字面意思应该就可以理解，高通、低通和带通就是让高频、低频或者某个频带的音频保留，而其它的频带都加以削弱，而带阻就是削弱某个频带的音频能量。比如我们觉得人声中齿音太多，想要去齿音，可以在 10kHz～14kHz 左右加一个带通滤波器，削减一下这部分的能量。音频滤波器有很多种，比如常用的 FIR（Finite Impulse Response）和 IIR（Infinite Impulse Response）Filter。</p>
+<h3 id="变调"><a href="#变调" class="headerlink" title="变调"></a>变调</h3><p>不同的人发音的基频是不一样的。而音调和基频是直接相关的，要变调其实就是要改变基频。而基频的本质是一个信号的循环周期的倒数，比如基频是 250Hz，那么当前时间的语音信号就是以 4ms 为周期的信号。我们要变调，其实就是把这个循环周期进行扩大或者缩小。那么我们是如何实现音调提升的呢？其实方法很简单，就是把原来的信号进行重采样，但不改变播放信号的采样率。简单来说，比如把原来 20ms 的音频每两个点取一个点，然后按照相同的采样率进行播放，这样 10ms 内需要播放原来 20ms 的内容。这样一来，原本的信号循环时间周期就变成了二分之一，从而实现了升调。但这里有个问题，因为每一段时间内需要播放的音频信号的采样点是固定的。也就是说，通过下采样的方法，音频从原来的 20ms 缩短成了 10ms。直观的感受就是这个人的音调变高了，但说话的语速也变快了，也就是变速又变调。但我们想实现的变声只是改变音调，也就是所谓的“变调不变速”。其实，实现的方法也很简单，核心思想就是通过把音频中的信号按照一定的规律拼接起来，把音频的长度拉长或者缩短，这就是第一种变调算法 OLA（Overlap-and-Add）。</p>
+<h3 id="混响"><a href="#混响" class="headerlink" title="混响"></a>混响</h3><p>混响信号可以看作是直达声和许多逐步衰减、不断延迟的回声信号叠加而成的。假设一个衰减系数 a 和延迟 D，那么混响信号 y(n) 可以用下面的等比数列来表示：</p>
 <p>y(n)&#x3D;x(n)+ax(n−D)+a2x(n−2D)+…</p>
 <p>其中 x(n) 是输入信号，D 为回声的延迟。而这种形式正是梳状滤波器的形式。</p>
 <p>如图所示，所谓梳状滤波器，其实就是因为它的频率响应呈一个梳子的形状。梳状滤波常被用来消除某些不需要的谐波，但这里主要是利用了它的拖尾效应。</p>
@@ -639,6 +618,9 @@
 <p>不同的声音借由各个扬声器的位置和播放渲染可以实现比较好的声场还原。但是这种传统的家庭影院的布局并不能完美地还原声场。比如来自下方的声音就不能清晰重现，并且听音者只能在相对固定的位置（比如沙发）上才能获得正确的听感。</p>
 <p>dolby 7.1.4系统：</p>
 <p><img src="/../images/spatialaudio3.png" alt="spatialaudio3"></p>
+<h3 id="语音合成"><a href="#语音合成" class="headerlink" title="语音合成"></a>语音合成</h3><p>TTS Text to Speech，将文本转为语音技术，分为语言分析和声学系统，也成为前端部分和后端部分。</p>
+<h3 id="语音识别"><a href="#语音识别" class="headerlink" title="语音识别"></a>语音识别</h3><p>ASR，Automatic Speech Recognition，自动语音识别。</p>
+<h3 id="声纹识别"><a href="#声纹识别" class="headerlink" title="声纹识别"></a>声纹识别</h3><p>识别人声</p>
 <h2 id="音频传输"><a href="#音频传输" class="headerlink" title="音频传输"></a>音频传输</h2><p>音频传输主要是指有线或者无线进行音频数据分发的过程。</p>
 <h3 id="短距"><a href="#短距" class="headerlink" title="短距"></a>短距</h3><p>最常见的短距无线音频分发技术就是蓝牙。</p>
 <p>蓝牙音频是蓝牙协议栈中的一种应用Profile，有A2DP，LDAC，AVRCP，HFP等等很多种。</p>
@@ -695,7 +677,10 @@
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/crow_ch/article/details/103948624">(79条消息) 【Qualcomm高通音频】音频数据如何从文件系统送到喇叭Speaker？_一息尚存，从吾所好的博客-CSDN博客</a></p>
 <p><a target="_blank" rel="noopener" href="http://blog.csdn.net/droidphone/article/details/7165482">http://blog.csdn.net/droidphone/article/details/7165482</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/crow_ch/article/details/103948624">https://blog.csdn.net/crow_ch/article/details/103948624</a></p>
-<h3 id="PulseAudio"><a href="#PulseAudio" class="headerlink" title="PulseAudio"></a>PulseAudio</h3><h2 id="Android音频"><a href="#Android音频" class="headerlink" title="Android音频"></a>Android音频</h2><h3 id="Android音频框架"><a href="#Android音频框架" class="headerlink" title="Android音频框架"></a>Android音频框架</h3><p>从Google对Android音频的介绍看Audio：</p>
+<h3 id="PulseAudio"><a href="#PulseAudio" class="headerlink" title="PulseAudio"></a>PulseAudio</h3><p><a target="_blank" rel="noopener" href="https://www.freedesktop.org/wiki/Software/PulseAudio/">PulseAudio (www.freedesktop.org)</a></p>
+<p>有个Maintainer写了一个很好的说明：</p>
+<p><a target="_blank" rel="noopener" href="https://gavv.net/articles/pulseaudio-under-the-hood/">PulseAudio under the hood (gavv.net)</a></p>
+<h2 id="Android音频"><a href="#Android音频" class="headerlink" title="Android音频"></a>Android音频</h2><h3 id="Android音频框架"><a href="#Android音频框架" class="headerlink" title="Android音频框架"></a>Android音频框架</h3><p>从Google对Android音频的介绍看Audio：</p>
 <p><a target="_blank" rel="noopener" href="https://source.android.google.cn/devices/audio">音频  |  Android 开源项目  |  Android Open Source Project (google.cn)</a></p>
 <p><img src="/../images/androidaudio2.png" alt="androidaudio2"></p>
 <p>Android 音频框架在整个通路中是承上启下的作用，把对应用层暴露的概念，经过框架的中转之后，转成HAL层可以理解的语言，继而通过ASoC的客户端转接到内核实现。</p>
@@ -736,7 +721,25 @@
 </ul>
 <p><img src="/../images/%E9%AB%98%E9%80%9A3.png" alt="高通3"></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/azloong/article/details/79383323">https://blog.csdn.net/azloong/article/details/79383323</a></p>
-<h2 id="iOS音频"><a href="#iOS音频" class="headerlink" title="iOS音频"></a>iOS音频</h2><h2 id="Tizen音频"><a href="#Tizen音频" class="headerlink" title="Tizen音频"></a>Tizen音频</h2><h2 id="鸿蒙音频"><a href="#鸿蒙音频" class="headerlink" title="鸿蒙音频"></a>鸿蒙音频</h2><p>用户空间的音频软件栈采用了linux的PulseAudio，内核层使用ALSA（Linux），微内核（LiteOS）来完成，中间使用HDF来进行封装和兼容。</p>
+<h3 id="海思音频通路"><a href="#海思音频通路" class="headerlink" title="海思音频通路"></a>海思音频通路</h3><p>从哪里找~</p>
+<h2 id="iOS音频"><a href="#iOS音频" class="headerlink" title="iOS音频"></a>iOS音频</h2><h2 id="Tizen音频"><a href="#Tizen音频" class="headerlink" title="Tizen音频"></a>Tizen音频</h2><p>Tizen音频也是以PulseAudio作为audio服务。</p>
+<p><a target="_blank" rel="noopener" href="https://docs.tizen.org/platform/porting/multimedia/#porting-the-oal-interface-3">Multimedia | Tizen Docs</a></p>
+<p><img src="https://docs.tizen.org/platform/porting/media/797px-audio.png" alt="Audio layers"></p>
+<ul>
+<li>PulseAudio<ul>
+<li>PulseAudio is a sound server accepting sound input from 1 or more sources and redirecting it to 1 or more sinks. It has the following features:<ul>
+<li>Software mixing of multiple audio streams</li>
+<li>Support for multiple audio sources and sinks</li>
+<li>An extensible plugin architecture with support for loadable modules</li>
+<li>Low-latency operation</li>
+<li>Support for external devices, such as Bluetooth audio and USB audio devices</li>
+</ul>
+</li>
+<li>Pulseaudio interacts with AudioHAL interfaces to support various device types.</li>
+</ul>
+</li>
+</ul>
+<h2 id="鸿蒙音频"><a href="#鸿蒙音频" class="headerlink" title="鸿蒙音频"></a>鸿蒙音频</h2><p>用户空间的音频软件栈采用了linux的PulseAudio，内核层使用ALSA（Linux），微内核（LiteOS）来完成，中间使用HDF来进行封装和兼容。</p>
 <h1 id="技术展望"><a href="#技术展望" class="headerlink" title="技术展望"></a>技术展望</h1><h2 id="架构演进"><a href="#架构演进" class="headerlink" title="架构演进"></a>架构演进</h2><p>框架层演进以分布式为主要场景来进行扩展，以补齐用户界面可见的功能点为基准。</p>
 <h2 id="业界洞察"><a href="#业界洞察" class="headerlink" title="业界洞察"></a>业界洞察</h2><p><a target="_blank" rel="noopener" href="https://www.52audio.com/archives/74205.html">https://www.52audio.com/archives/74205.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.sonos.com/zh-cn/home">https://www.sonos.com/zh-cn/home</a></p>
@@ -764,7 +767,10 @@
     <a href="/2022/04/06/Android%E5%9B%BE%E7%89%87%E8%A7%A3%E7%A0%81%E6%B5%81%E7%A8%8B/" rel="prev" title="Android图片解码流程">
       <i class="fa fa-chevron-left"></i> Android图片解码流程
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/08/NexT-%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96/" rel="next" title="NexT 主题优化">
+      NexT 主题优化 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -823,7 +829,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E6%8A%80%E6%9C%AF%E9%93%BE%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">音频技术链路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E5%AD%A6"><span class="nav-number">1.1.1.</span> <span class="nav-text">声学</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E6%B3%A8%E9%A2%86%E5%9F%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">关注领域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E8%A1%8C%E4%B8%9A"><span class="nav-number">1.2.</span> <span class="nav-text">音频行业</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E6%8A%80%E6%9C%AF%E9%A2%86%E5%9F%9F"><span class="nav-number">2.</span> <span class="nav-text">音频技术领域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E5%9F%BA%E7%A1%80"><span class="nav-number">2.1.</span> <span class="nav-text">音频基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">2.1.1.</span> <span class="nav-text">音频基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A3%B0%E5%AD%A6-1"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">声学</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCM"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">PCM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A3%B0%E9%81%93"><span class="nav-number">2.1.1.3.</span> <span class="nav-text">声道</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A0%81%E7%8E%87"><span class="nav-number">2.1.1.4.</span> <span class="nav-text">码率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MIDI"><span class="nav-number">2.1.1.5.</span> <span class="nav-text">MIDI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9F%B3%E4%B9%90%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86"><span class="nav-number">2.1.1.6.</span> <span class="nav-text">音乐信号处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E8%B4%A8%E9%87%8F%E8%AF%84%E4%BB%B7"><span class="nav-number">2.1.1.7.</span> <span class="nav-text">音频质量评价</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A7%82%E8%AF%84%E6%B5%8B"><span class="nav-number">2.1.1.7.1.</span> <span class="nav-text">主观评测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%A2%E8%A7%82%E8%AF%84%E6%B5%8B"><span class="nav-number">2.1.1.7.2.</span> <span class="nav-text">客观评测</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81"><span class="nav-number">2.2.</span> <span class="nav-text">音频编解码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MP3"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">MP3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AAC"><span class="nav-number">2.2.0.2.</span> <span class="nav-text">AAC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WAVE"><span class="nav-number">2.2.0.3.</span> <span class="nav-text">WAVE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A7%81%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.2.0.4.</span> <span class="nav-text">其他常见格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#android%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.2.0.5.</span> <span class="nav-text">android支持的格式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E6%95%88%E6%8A%80%E6%9C%AF"><span class="nav-number">2.3.</span> <span class="nav-text">音效技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3A"><span class="nav-number">2.3.1.</span> <span class="nav-text">3A</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AEC"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">AEC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ANC-x2F-ANS"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">ANC&#x2F;ANS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AGC"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">AGC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EQ%E3%80%81%E6%B7%B7%E5%93%8D%E3%80%81%E5%8F%98%E8%B0%83"><span class="nav-number">2.3.2.</span> <span class="nav-text">EQ、混响、变调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E9%9F%B3%E9%A2%91"><span class="nav-number">2.3.3.</span> <span class="nav-text">空间音频</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E4%BD%8D%E5%88%A4%E6%96%AD"><span class="nav-number">2.3.3.1.</span> <span class="nav-text">方位判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%9D%E7%A6%BB%E6%84%9F%E5%92%8C%E7%A9%BA%E9%97%B4%E6%84%9F"><span class="nav-number">2.3.3.2.</span> <span class="nav-text">距离感和空间感</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86"><span class="nav-number">2.3.3.3.</span> <span class="nav-text">空间音频采集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE"><span class="nav-number">2.3.3.4.</span> <span class="nav-text">空间音频播放</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E4%BC%A0%E8%BE%93"><span class="nav-number">2.4.</span> <span class="nav-text">音频传输</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%AD%E8%B7%9D"><span class="nav-number">2.4.1.</span> <span class="nav-text">短距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93"><span class="nav-number">2.4.2.</span> <span class="nav-text">网络传输</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5"><span class="nav-number">3.</span> <span class="nav-text">音频技术实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E7%A1%AC%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">音频硬件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Codec"><span class="nav-number">3.1.1.</span> <span class="nav-text">Codec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Digital-Audio-Interface-DAI%EF%BC%89"><span class="nav-number">3.1.2.</span> <span class="nav-text">Digital Audio Interface (DAI）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AC97"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">AC97</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#I2S"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">I2S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCM-1"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">PCM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Slimbus"><span class="nav-number">3.1.2.4.</span> <span class="nav-text">Slimbus</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#I2C"><span class="nav-number">3.1.2.5.</span> <span class="nav-text">I2C</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%80%9A%E7%A1%AC%E4%BB%B6%E9%9F%B3%E9%A2%91"><span class="nav-number">3.1.3.</span> <span class="nav-text">高通硬件音频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%B7%E6%80%9D%E7%A1%AC%E4%BB%B6%E9%9F%B3%E9%A2%91"><span class="nav-number">3.1.4.</span> <span class="nav-text">海思硬件音频</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux%E9%9F%B3%E9%A2%91"><span class="nav-number">3.2.</span> <span class="nav-text">linux音频</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OSS"><span class="nav-number">3.2.1.</span> <span class="nav-text">OSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALSA"><span class="nav-number">3.2.2.</span> <span class="nav-text">ALSA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASoC"><span class="nav-number">3.2.3.</span> <span class="nav-text">ASoC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PulseAudio"><span class="nav-number">3.2.4.</span> <span class="nav-text">PulseAudio</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android%E9%9F%B3%E9%A2%91"><span class="nav-number">3.3.</span> <span class="nav-text">Android音频</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android%E9%9F%B3%E9%A2%91%E6%A1%86%E6%9E%B6"><span class="nav-number">3.3.1.</span> <span class="nav-text">Android音频框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%80%9A%E9%9F%B3%E9%A2%91%E9%80%9A%E8%B7%AF"><span class="nav-number">3.3.2.</span> <span class="nav-text">高通音频通路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS%E9%9F%B3%E9%A2%91"><span class="nav-number">3.4.</span> <span class="nav-text">iOS音频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tizen%E9%9F%B3%E9%A2%91"><span class="nav-number">3.5.</span> <span class="nav-text">Tizen音频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%B8%BF%E8%92%99%E9%9F%B3%E9%A2%91"><span class="nav-number">3.6.</span> <span class="nav-text">鸿蒙音频</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E5%B1%95%E6%9C%9B"><span class="nav-number">4.</span> <span class="nav-text">技术展望</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B"><span class="nav-number">4.1.</span> <span class="nav-text">架构演进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%9A%E7%95%8C%E6%B4%9E%E5%AF%9F"><span class="nav-number">4.2.</span> <span class="nav-text">业界洞察</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%BD%E9%9F%B3%E8%B4%A8"><span class="nav-number">4.3.</span> <span class="nav-text">好音质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AA%E6%9D%A5%E6%96%B9%E5%90%91"><span class="nav-number">4.4.</span> <span class="nav-text">未来方向</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E6%8A%80%E6%9C%AF%E9%93%BE%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">音频技术链路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E5%AD%A6"><span class="nav-number">1.1.1.</span> <span class="nav-text">声学</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E6%B3%A8%E9%A2%86%E5%9F%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">关注领域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E8%A1%8C%E4%B8%9A"><span class="nav-number">1.2.</span> <span class="nav-text">音频行业</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E6%8A%80%E6%9C%AF%E9%A2%86%E5%9F%9F"><span class="nav-number">2.</span> <span class="nav-text">音频技术领域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E5%9F%BA%E7%A1%80"><span class="nav-number">2.1.</span> <span class="nav-text">音频基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E9%9F%B3%E8%A6%81%E7%B4%A0"><span class="nav-number">2.1.1.</span> <span class="nav-text">声音要素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A3%B0%E6%B3%A2%E7%AE%80%E4%BB%8B"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">声波简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A3%B0%E6%B3%A2%E5%9F%BA%E6%9C%AC%E9%87%8F"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">声波基本量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A3%B0%E9%9F%B3%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="nav-number">2.1.1.3.</span> <span class="nav-text">声音三要素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E4%BF%A1%E5%8F%B7"><span class="nav-number">2.1.2.</span> <span class="nav-text">语音信号</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E4%BA%A7%E7%94%9F"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">语音产生</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E7%9A%84%E5%8F%91%E5%A3%B0%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">语音的发声模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E6%B3%A2%E5%BD%A2%E5%92%8C%E8%AF%AD%E8%B0%B1"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">语音波形和语谱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%9F%B3%E5%92%8C%E6%B5%8A%E9%9F%B3"><span class="nav-number">2.1.2.4.</span> <span class="nav-text">清音和浊音</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E7%9A%84%E5%9F%BA%E9%9F%B3%E3%80%81%E8%B0%90%E6%B3%A2%E3%80%81%E9%A2%91%E8%B0%B1%E5%8C%85%E7%BB%9C"><span class="nav-number">2.1.2.5.</span> <span class="nav-text">语音的基音、谐波、频谱包络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E6%84%9F%E7%9F%A5"><span class="nav-number">2.1.2.6.</span> <span class="nav-text">语音感知</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E9%9F%B3%E9%A2%91%E5%9F%BA%E7%A1%80"><span class="nav-number">2.1.3.</span> <span class="nav-text">数字音频基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PCM"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">PCM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A3%B0%E9%81%93"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">声道</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A0%81%E7%8E%87"><span class="nav-number">2.1.3.3.</span> <span class="nav-text">码率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E8%B4%A8%E9%87%8F%E8%AF%84%E4%BB%B7"><span class="nav-number">2.1.3.4.</span> <span class="nav-text">音频质量评价</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A7%82%E8%AF%84%E6%B5%8B"><span class="nav-number">2.1.3.4.1.</span> <span class="nav-text">主观评测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%A2%E8%A7%82%E8%AF%84%E6%B5%8B"><span class="nav-number">2.1.3.4.2.</span> <span class="nav-text">客观评测</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIDI"><span class="nav-number">2.1.4.</span> <span class="nav-text">MIDI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9F%B3%E4%B9%90%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86"><span class="nav-number">2.1.5.</span> <span class="nav-text">音乐信号处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81"><span class="nav-number">2.2.</span> <span class="nav-text">音频编解码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MP3"><span class="nav-number">2.2.1.</span> <span class="nav-text">MP3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AAC"><span class="nav-number">2.2.2.</span> <span class="nav-text">AAC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WAVE"><span class="nav-number">2.2.3.</span> <span class="nav-text">WAVE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A7%81%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.2.4.</span> <span class="nav-text">其他常见格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#android%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.2.5.</span> <span class="nav-text">android支持的格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86"><span class="nav-number">2.3.</span> <span class="nav-text">音频信号处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3A"><span class="nav-number">2.3.1.</span> <span class="nav-text">3A</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AEC"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">AEC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ANC-x2F-ANS"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">ANC&#x2F;ANS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AGC"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">AGC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EQ"><span class="nav-number">2.3.2.</span> <span class="nav-text">EQ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E8%B0%83"><span class="nav-number">2.3.3.</span> <span class="nav-text">变调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B7%E5%93%8D"><span class="nav-number">2.3.4.</span> <span class="nav-text">混响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E9%9F%B3%E9%A2%91"><span class="nav-number">2.3.5.</span> <span class="nav-text">空间音频</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E4%BD%8D%E5%88%A4%E6%96%AD"><span class="nav-number">2.3.5.1.</span> <span class="nav-text">方位判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%9D%E7%A6%BB%E6%84%9F%E5%92%8C%E7%A9%BA%E9%97%B4%E6%84%9F"><span class="nav-number">2.3.5.2.</span> <span class="nav-text">距离感和空间感</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86"><span class="nav-number">2.3.5.3.</span> <span class="nav-text">空间音频采集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE"><span class="nav-number">2.3.5.4.</span> <span class="nav-text">空间音频播放</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E5%90%88%E6%88%90"><span class="nav-number">2.3.6.</span> <span class="nav-text">语音合成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB"><span class="nav-number">2.3.7.</span> <span class="nav-text">语音识别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E7%BA%B9%E8%AF%86%E5%88%AB"><span class="nav-number">2.3.8.</span> <span class="nav-text">声纹识别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E4%BC%A0%E8%BE%93"><span class="nav-number">2.4.</span> <span class="nav-text">音频传输</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%AD%E8%B7%9D"><span class="nav-number">2.4.1.</span> <span class="nav-text">短距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93"><span class="nav-number">2.4.2.</span> <span class="nav-text">网络传输</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5"><span class="nav-number">3.</span> <span class="nav-text">音频技术实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E7%A1%AC%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">音频硬件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Codec"><span class="nav-number">3.1.1.</span> <span class="nav-text">Codec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Digital-Audio-Interface-DAI%EF%BC%89"><span class="nav-number">3.1.2.</span> <span class="nav-text">Digital Audio Interface (DAI）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AC97"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">AC97</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#I2S"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">I2S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCM-1"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">PCM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Slimbus"><span class="nav-number">3.1.2.4.</span> <span class="nav-text">Slimbus</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#I2C"><span class="nav-number">3.1.2.5.</span> <span class="nav-text">I2C</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%80%9A%E7%A1%AC%E4%BB%B6%E9%9F%B3%E9%A2%91"><span class="nav-number">3.1.3.</span> <span class="nav-text">高通硬件音频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%B7%E6%80%9D%E7%A1%AC%E4%BB%B6%E9%9F%B3%E9%A2%91"><span class="nav-number">3.1.4.</span> <span class="nav-text">海思硬件音频</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux%E9%9F%B3%E9%A2%91"><span class="nav-number">3.2.</span> <span class="nav-text">linux音频</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OSS"><span class="nav-number">3.2.1.</span> <span class="nav-text">OSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALSA"><span class="nav-number">3.2.2.</span> <span class="nav-text">ALSA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASoC"><span class="nav-number">3.2.3.</span> <span class="nav-text">ASoC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PulseAudio"><span class="nav-number">3.2.4.</span> <span class="nav-text">PulseAudio</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android%E9%9F%B3%E9%A2%91"><span class="nav-number">3.3.</span> <span class="nav-text">Android音频</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android%E9%9F%B3%E9%A2%91%E6%A1%86%E6%9E%B6"><span class="nav-number">3.3.1.</span> <span class="nav-text">Android音频框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%80%9A%E9%9F%B3%E9%A2%91%E9%80%9A%E8%B7%AF"><span class="nav-number">3.3.2.</span> <span class="nav-text">高通音频通路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%B7%E6%80%9D%E9%9F%B3%E9%A2%91%E9%80%9A%E8%B7%AF"><span class="nav-number">3.3.3.</span> <span class="nav-text">海思音频通路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS%E9%9F%B3%E9%A2%91"><span class="nav-number">3.4.</span> <span class="nav-text">iOS音频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tizen%E9%9F%B3%E9%A2%91"><span class="nav-number">3.5.</span> <span class="nav-text">Tizen音频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%B8%BF%E8%92%99%E9%9F%B3%E9%A2%91"><span class="nav-number">3.6.</span> <span class="nav-text">鸿蒙音频</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E5%B1%95%E6%9C%9B"><span class="nav-number">4.</span> <span class="nav-text">技术展望</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B"><span class="nav-number">4.1.</span> <span class="nav-text">架构演进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%9A%E7%95%8C%E6%B4%9E%E5%AF%9F"><span class="nav-number">4.2.</span> <span class="nav-text">业界洞察</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%BD%E9%9F%B3%E8%B4%A8"><span class="nav-number">4.3.</span> <span class="nav-text">好音质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AA%E6%9D%A5%E6%96%B9%E5%90%91"><span class="nav-number">4.4.</span> <span class="nav-text">未来方向</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -839,7 +845,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -857,14 +863,12 @@
       </div>
   </nav>
 </div>
-  <div class="sidebar-button motion-element">
-    <a onclick="tidioChatApi.open();"><i class="fa fa-comment"></i>
-    Chat
-  </a>
-  </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
         <a href="https://github.com/ccfriend" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ccfriend" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ccfriend@sina.cn" title="E-Mail → mailto:ccfriend@sina.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -899,18 +903,38 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">55k</span>
+    <span title="站点总字数">56k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">50 分钟</span>
+    <span title="站点阅读时长">51 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -969,10 +993,6 @@
   </script>
 
 
-
-
-  
-<script src="/js/local-search.js"></script>
 
 
 
