@@ -14,3 +14,4 @@ Android系统工程师
 # 联系方式
 Email: ccfriend@sina.cn
 微信公众号：
+![img](../images/wechat_channel.jpg)
