@@ -57,7 +57,7 @@ nokia的库提供了如下支持：
 ## 格式对比
 和其他格式对比情况：
 
-![]https://image-static.segmentfault.com/100/619/1006199941-5b6bf1645c226
+![img](https://image-static.segmentfault.com/100/619/1006199941-5b6bf1645c226)
 
 # HEIF支持情况
 1. 以下这些描述来自2017年，苹果刚发布支持HEIF
@@ -243,4 +243,6 @@ Note: this plugin is part of GIMP v2.10.2 (or Windows v2.10.4 binaries). You onl
 4. 解码后显示，目前只有静态图，缺失较多，是扩展ImageView，GifMovie，等等
 5. 图片编码，目前也只有静态图，且heiwriter 包支持，非SDK支持
 6. 转码，在效率不高的情况下，需要先解图为Bitmap，然后压缩YUV，最后生成
-7. 相机通路，拍照支持
+7. 相机通路，拍照支持<br>
+google有个支持说明：https://source.android.google.cn/devices/camera/heif <br>
+HEIC 图片由摄像头传输框架生成，请求来自相机 HAL 的未压缩图片并将其发送到媒体子系统，以便由 HEIC 或 HEVC 编码器进行编码。
