@@ -9,6 +9,7 @@ tags: [image, HEIF]
 HEIF格式的全名为[高效率图像格式（High Efficiency Image Format ，HEIF）](https://en.wikipedia.org/wiki/High_Efficiency_Image_File_Format), 是一种图像容器格式，它所生成的图像文件相对较小，且图像质量也高于较早的 JPEG 标准，基于高效视频压缩格式（也称为 HEVC 或 H.265）是由动态图像专家组（MPEG）在2013年推出的新格式，参见 https://nokiatech.github.io/heif/.
 <!--more-->
 
+**TODO**
 为什么这里会是nokia公司的介绍作为HEIF的主要参考？Nokia是当时支持HEIF的主要参与者。
 
 可以看下HEIF和JPG路标图：
@@ -29,11 +30,11 @@ iOS设备通过AirDrop发给其他iOS设备时，如果接收方为iOS 10及以�
 
 3. web端支持情况
 
-nokia的展示页面可以看到HEIF demo的图片，说明web端可以支持加载显示。
+nokia的展示页面可以看到HEIF demo的图片，是基于Nokia自己的解码库完成。对于浏览器来说，很多新版本的浏览器已经支持。
 
-# HEIF文件获取
+# HEIF获取
 ## HEIF文件
-可以看到获取的heif文件有的是heif后缀，有的是heic后缀。
+**TODO** 可以看到获取的heif文件有的是heif后缀，有的是heic后缀，其实是有很多后缀的。
 
 ## 怎么获取HEIF
 1. 设备拍照
@@ -42,10 +43,12 @@ nokia的展示页面可以看到HEIF demo的图片，说明web端可以支持加
 
 2. 网络下载
 
-当然，也可以从网络端下载，最简单的就是从Nokia官网。（如果直接从web上另存图片，默认是png，怎么保存呢？）是在gh-pages保存原始图，可以从这里下载：
+当然，也可以从网络端下载，最简单的就是从Nokia官网。
+
+在gh-pages分支下存储了网页上展示的heif原始资源图片：
 https://github.com/nokiatech/heif/tree/gh-pages/content
 
-nokia官网也提供了更多的资源下载链接：
+以及更多的一些heif测试资源，包含了基本码流和配置文件：
 https://github.com/nokiatech/heif_conformance
 
 3. 工具转换
@@ -57,9 +60,7 @@ https://github.com/nokiatech/heif <br>
 ## 怎么打开HEIF
 同样的，移动端用上述设备就可以了；如果下载到windows和mac(没有，自行查找)怎么打开？win11默认是支持的，如果是老版本的windows，可以从windows store中搜索heif。
 
-# HEIF 解析
-
-## HEIF 特性
+# HEIF 特性
 从nokia的官网可以看到这些描述：
 
 HEIF files can store:
@@ -85,11 +86,15 @@ HEIF files also inherit many properties of ISOBMFF such as edit lists, media alt
 |音轨数据和封面图|静态图和图像序列中可以包含这些信息|
 |图像信息上下文|如立体图像，时间同步，图片连拍，图像组|
 
+# HEIF 解析
+
 ## HEIF解析工具
 虽然系统有照片等工具可以直接展示HEIF，但是还是有很大局限性的。从Nokia上下载的各种heic图，在windows上的默认照片工具不是全都支持，而且对于开发而言，需要深入解析到每张图具体的格式内容。
 
-金山云基于QT开发了一款在MAC上的查看工具，和MP4Info类似：
+金山云基于QT开发了一款在MAC上的查看工具，和MP4Info类似，通过QT编译后，也可以在windows上运行：
 https://github.com/ksvc/MediaParser
+
+其实最好的是基于Nokia的库实现解析，支持规格比较完整。
 
 ## 格式解析
 部分参考：https://www.jianshu.com/p/b016d10a087d <br>
@@ -109,7 +114,17 @@ HEIF文件如果是单幅的静态图片的话，使用item的形式保存数据
 ### item 格式
 heif单张图片是item形式存储，可以使用工具来查看其中的信息。
 
-### 多图格式
+### ImageCollection 多图
+
+### ImageBurst 连拍
+
+### ImageSequence 动图
+
+### Image Derivations 图片派生信息
+
+### Auxiliary Image Storage 图片辅助数据
+   
+### 包含用户描述信息的图片
 
 # 转换参考
 1. 基于Android平台
@@ -117,4 +132,4 @@ heif单张图片是item形式存储，可以使用工具来查看其中的信息
 https://github.com/ccfriend/HeifDemo
 
 2. 基于nokia的库做转换
-开发中
+**TODO** 开发中
