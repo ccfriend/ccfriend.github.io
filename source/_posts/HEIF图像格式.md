@@ -103,15 +103,29 @@ https://github.com/ksvc/MediaParser
 ### ISO BMFF
 HEIF格式是基于 ISO Base Media File Format格式衍生出来的图像封装格式，所以它的文件格式同样符合ISO Base Media File Format (ISO/IEC 14496-12)中的定义（ ISOBMFF）。
 
+规范文档可以参考：https://www.iso.org/standard/74428.html
+
 文件中所有的数据都存储在称为Box的数据块结构中，每个文件由若干个Box组成，每个Box有自己的类型和长度。在一个Box中还可以包含子Box，最终由一系列的Box组成完整的文件内容，结构如下图所示，图中每个方块即代表一个Box。常见的MP4文件同样是ISOBMFF结构，所以HEIF文件结构和MP4文件结构基本一致，只是用到的Box类型有区别。
 
 HEIF文件如果是单幅的静态图片的话，使用item的形式保存数据，所有item单独解码；如果保存的为图片序列的话，使用trak的方式保存，这种trak的形式同mp4的audio、video track类似， 每个轨道存储一张图片。
 
-<b>ISOBMFF格式说明
+**ISOBMFF格式说明**
 
 ![img](https://upload-images.jianshu.io/upload_images/2926667-337a35837bb3325e.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
 
-### item 格式
+### 各个box说明
+heif的格式遵从上面的描述，但是有自己的扩展。
+以具体的照片为例，它的最外一层由ftyp、meta和mdat三个Box组成，然后meta Box由包含有多个子Box，如图：<br>
+![img](https://upload-images.jianshu.io/upload_images/2926667-c485349536c1cc0b.png?imageMogr2/auto-orient/strip|imageView2/2/w/494/format/webp)
+
+1. ftyp
+FileType Box在文件中有且仅有一个，它的类型字段值为ftyp，位于文件起始位置，其中的brand定义了文件中所存放的媒体类型，它的定义为：
+[](https://upload-images.jianshu.io/upload_images/2926667-d2042c95fb0af330.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
+
+在heif图片中，会扩展brand类型：
+[](https://upload-images.jianshu.io/upload_images/2926667-0712559f12e006df.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
+
+### Still Image 静态图
 heif单张图片是item形式存储，可以使用工具来查看其中的信息。
 
 ### ImageCollection 多图
@@ -126,10 +140,11 @@ heif单张图片是item形式存储，可以使用工具来查看其中的信息
    
 ### 包含用户描述信息的图片
 
-# 转换参考
+## 解析转换demo
 1. 基于Android平台
-基于Android平台接口和能力，实现了一个简单的转换demo，参考：
-https://github.com/ccfriend/HeifDemo
+
+基于Android平台接口和能力，实现了一个简单的转换demo，参考：https://github.com/ccfriend/HeifDemo
 
 2. 基于nokia的库做转换
-**TODO** 开发中
+
+**TODO** 开发中，nokia的库可以做到跨平台，但是有license约束，如果要做到商用，可能要自己重新开发
