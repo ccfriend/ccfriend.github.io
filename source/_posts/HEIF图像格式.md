@@ -197,6 +197,15 @@ id为50的item拥有7、8、9、5、10几个属性<br>
 如果item的method字段为1，表明该item的数据保存在上面说的idat box中。<br>
 ![img](https://upload-images.jianshu.io/upload_images/2926667-d4cf3c4e2503ca8c.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
 
+### 图像解码显示
+通过iloc box获取到具体某个item的数据的保存位置，即可从文件中提取出该数据，这些数据实际内容即为HEVC格式编码的数据，再利用ipco box中的hvcC数据，获取相应的SPS、PPS和VPS信息，即可使用HEVC解码器将数据解码为一幅图像。
+
+实际使用iphone7拍摄出来的照片，文件中共有51个item，对应的id为1-51，其中1-48的item信息基本一致，类型为hvc1，提取出item数据后可以使用HEVC解码器解码出图像，但是观察发现图像均为完整照片的一部分。
+
+pitm box中指明主item为49，所以显示的时候需要依据id为49的item的格式显示，该item类型为grid，该类型表明整个图像被分割成多个小图像分别进行编码保存。解析该item数据可以得到完整图像被分割为6x8的小图像，且通过iref box中可知，49号item想关联的item为1-48号item，所以要显示完整图像时需要将1-48号item分别解码，将获取的图像按照6x8的分割合并起来，形成一幅完整的图像即为最终图像。
+
+从iref 和ipco box中可知，50号item数据为图像的缩略图，它有区别与1-48的编码参数和格式，与49号item相关联，说明为49号item（即完整图像）的缩略图。51号item类型为Exif，保存了相机相关信息。
+
 
 ### Still Image 静态图
 heif单张图片是item形式存储，可以使用工具来查看其中的信息。
