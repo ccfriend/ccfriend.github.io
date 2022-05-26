@@ -14,7 +14,7 @@ HEIF格式的全名为[高效率图像格式（High Efficiency Image Format ，H
 **TODO**
 为什么这里会是nokia公司的介绍作为HEIF的主要参考？Nokia是当时支持HEIF的主要参与者。
 
-可以看下HEIF和JPG路标图：
+可以看下HEIF和JPG演进图：
 ![img](../images/heif_jpg.png)
 
 # HEIF 特性
@@ -71,6 +71,8 @@ iOS设备通过AirDrop发给其他iOS设备时，如果接收方为iOS 10及以�
 
 最早被苹果公司的 iPhone 所使用，并且也在 Google 的 Android P 手机系统开始支持。微软也于 Windows 10 Build 17123 预览版开始，新增了对 HEIF 图像格式的系统原生支持。
 
+苹果关于heif的介绍：https://developer.apple.com/videos/play/wwdc2017/513/
+
 iOS：
 |HEIF|static|grid|sequence|overlay|identiy|audio|
 |---|---|---|---|---|---|---|
@@ -95,7 +97,7 @@ Android：
 
 nokia的展示页面可以看到HEIF demo的图片，是基于Nokia自己的解码库完成。对于浏览器来说，很多新版本的浏览器已经支持。
 
-# HEIF获取
+# HEIF 获取
 1. 设备拍照
    
 通过上面的描述，其实可以看到，如果你手头有支持HEIF的设备，如iOS 11以后的设备，或者Android P以后的设备（需要厂商支持），就可以用设备拍一张照片就可以得到了。
@@ -112,9 +114,8 @@ https://github.com/nokiatech/heif_conformance
 
 3. 工具转换
 
-使用Nokia的库自己转换制作heif图片：
-https://github.com/nokiatech/heif <br>
-支持C++、JAVA API，可以在windows，Android平台方便移植使用。
+使用Nokia的库自己转换制作heif图片：https://github.com/nokiatech/heif <br>
+支持C++、JAVA API，可以在windows，Android平台方便移植使用。<br>
 如何使用可以参考：http://jpgtoheif.com/
 
 # HEIF 解析
@@ -133,7 +134,9 @@ https://github.com/nokiatech/heif <br>
 ### ISO BMFF
 HEIF格式是基于 ISO Base Media File Format格式衍生出来的图像封装格式，所以它的文件格式同样符合ISO Base Media File Format (ISO/IEC 14496-12)中的定义（ ISOBMFF）。
 
-规范文档可以参考：https://www.iso.org/standard/74428.html
+规范文档可以参考：
+https://www.iso.org/standard/74428.html <br>
+https://mpeg.chiariglione.org/standards/mpeg-4/iso-base-media-file-format
 
 文件中所有的数据都存储在称为Box的数据块结构中，每个文件由若干个Box组成，每个Box有自己的类型和长度。在一个Box中还可以包含子Box，最终由一系列的Box组成完整的文件内容，结构如下图所示，图中每个方块即代表一个Box。常见的MP4文件同样是ISOBMFF结构，所以HEIF文件结构和MP4文件结构基本一致，只是用到的Box类型有区别。
 
@@ -202,6 +205,8 @@ heif单张图片是item形式存储，可以使用工具来查看其中的信息
 
 ### ImageBurst 连拍
 
+### 深度信息
+
 ### ImageSequence 动图
 
 ### Image Derivations 图片派生信息
@@ -226,9 +231,35 @@ Android提供的接口HeifWriter只能支持静态的图片生成。
 
 可以使用在线版进行heif的验证：https://strukturag.github.io/libheif/
 
+支持的功能还是比较全的：
+libheif has support for decoding
+* tiled images
+* alpha channels
+* thumbnails
+* reading EXIF and XMP metadata
+* reading the depth channel
+* multiple images in a file
+* image transformations (crop, mirror, rotate)
+* overlay images
+* plugin interface to add alternative codecs for additional formats (AVC, JPEG)
+* decoding of files while downloading (e.g. extract image size before file has been completely downloaded)
+* reading color profiles
+* heix images (10 and 12 bit, chroma 4:2:2)
+
+The encoder supports:
+* lossy compression with adjustable quality
+* lossless compression
+* alpha channels
+* thumbnails
+* save multiple images to a file
+* save EXIF and XMP metadata
+* writing color profiles
+* 10 and 12 bit images
+* monochrome images
+
 4. GIMP支持
 
-同上，同样这个厂商支持了libheif在GIMP中的插件实现：https://github.com/strukturag/heif-gimp-plugin
+同上，这个厂商支持了libheif在GIMP中的插件实现：https://github.com/strukturag/heif-gimp-plugin
 
 这个是新的GIMP版本直接支持的：<br>
 Note: this plugin is part of GIMP v2.10.2 (or Windows v2.10.4 binaries). You only need to manually install this plugin if you are running a lower version of GIMP.
