@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/myfavicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/myfavicon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ccfriend.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="什么是HEIF格式HEIF格式的全名为高效率图像格式（High Efficiency Image Format ，HEIF）, 是一种图像容器格式，它所生成的图像文件相对较小，且图像质量也高于较早的 JPEG 标准，基于高效视频压缩格式（也称为 HEVC 或 H.265）是由动态图像专家组（MPEG）在2013年推出的新格式，参见 https:&#x2F;&#x2F;nokiatech.github.io&#x2F;heif&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HEIF图像格式">
+<meta property="og:url" content="https://ccfriend.github.io/2022/05/23/HEIF%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F/index.html">
+<meta property="og:site_name" content="技术书房">
+<meta property="og:description" content="什么是HEIF格式HEIF格式的全名为高效率图像格式（High Efficiency Image Format ，HEIF）, 是一种图像容器格式，它所生成的图像文件相对较小，且图像质量也高于较早的 JPEG 标准，基于高效视频压缩格式（也称为 HEVC 或 H.265）是由动态图像专家组（MPEG）在2013年推出的新格式，参见 https:&#x2F;&#x2F;nokiatech.github.io&#x2F;heif&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ccfriend.github.io/images/heif_jpg.png">
+<meta property="og:image" content="https://image-static.segmentfault.com/100/619/1006199941-5b6bf1645c226">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2926667-337a35837bb3325e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2926667-c485349536c1cc0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/494/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2926667-d2042c95fb0af330.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2926667-487fd668f4cd95ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2926667-d4cf3c4e2503ca8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp">
+<meta property="article:published_time" content="2022-05-23T13:44:33.000Z">
+<meta property="article:modified_time" content="2022-06-02T04:07:41.227Z">
+<meta property="article:author" content="ccfriend">
+<meta property="article:tag" content="image">
+<meta property="article:tag" content="HEIF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ccfriend.github.io/images/heif_jpg.png">
+
+<link rel="canonical" href="https://ccfriend.github.io/2022/05/23/HEIF%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>HEIF图像格式 | 技术书房</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">技术书房</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">8</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccfriend.github.io/2022/05/23/HEIF%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myavatar.png">
+      <meta itemprop="name" content="ccfriend">
+      <meta itemprop="description" content="技如人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术书房">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HEIF图像格式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-23 21:44:33" itemprop="dateCreated datePublished" datetime="2022-05-23T21:44:33+08:00">2022-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-02 12:07:41" itemprop="dateModified" datetime="2022-06-02T12:07:41+08:00">2022-06-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/image/" itemprop="url" rel="index"><span itemprop="name">image</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="什么是HEIF格式"><a href="#什么是HEIF格式" class="headerlink" title="什么是HEIF格式"></a>什么是HEIF格式</h1><p>HEIF格式的全名为<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/High_Efficiency_Image_File_Format">高效率图像格式（High Efficiency Image Format ，HEIF）</a>, 是一种图像容器格式，它所生成的图像文件相对较小，且图像质量也高于较早的 JPEG 标准，基于高效视频压缩格式（也称为 HEVC 或 H.265）是由动态图像专家组（MPEG）在2013年推出的新格式，参见 <a target="_blank" rel="noopener" href="https://nokiatech.github.io/heif/">https://nokiatech.github.io/heif/</a>.</p>
+<span id="more"></span>
+
+<p>它定义了封装格式，编码格式，以及图像的展示方式，甚至涉及到与用户如何交互；所以一套完整的HEIF解决方案，一定是平台相关的，不只包含了拆包封包，还包括了编解码，展示，这些都需要与平台整合。</p>
+<p><strong>TODO</strong><br>为什么这里会是nokia公司的介绍作为HEIF的主要参考？Nokia是当时支持HEIF的主要参与者。</p>
+<p>可以看下HEIF和JPG演进图：<br><img src="/../images/heif_jpg.png" alt="img"></p>
+<h1 id="HEIF-特性"><a href="#HEIF-特性" class="headerlink" title="HEIF 特性"></a>HEIF 特性</h1><h2 id="Heif-特性"><a href="#Heif-特性" class="headerlink" title="Heif 特性"></a>Heif 特性</h2><p>从nokia的官网可以看到这些描述：</p>
+<p>HEIF files can store:</p>
+<ul>
+<li>Still Images, their thumbnails and related metadata such as EXIF or XMP information</li>
+<li>Image Collections, their thumbnails and related metadata such as EXIF or XMP information</li>
+<li>Image sequences such as cinemagraphs or image bursts and related metadata</li>
+<li>Unprocessed image and processed images in the same file with proper labelling and referencing</li>
+<li>Image derivation information such as rotation, overlay and grid view along with the images, so that different image derivations can make use of the same image data set</li>
+<li>Auxiliary image data such as depth map and alpha channel along with the images</li>
+<li>Audio tracks and cover images along with still images and image sequences</li>
+<li>Well-defined information about content context to signal e.g. stereo pairs, time-synchronized capture, image bursts and image album groups</li>
+</ul>
+<p>HEIF files also inherit many properties of ISOBMFF such as edit lists, media alternatives, media data groupings. Moreover, an MP4 file can be “branded” so that it can also contain images and image sequences as well as video and audio (i.e. dual branding)</p>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>静态图</td>
+<td>包含缩略图和metadata</td>
+</tr>
+<tr>
+<td>图像集合</td>
+<td>包含缩略图和metadata</td>
+</tr>
+<tr>
+<td>图像序列</td>
+<td>电影图像和图片连拍，以及metadata</td>
+</tr>
+<tr>
+<td>混合图片</td>
+<td>包含处理的和未处理的图在一个文件里</td>
+</tr>
+<tr>
+<td>图片派生信息</td>
+<td>如旋转、叠加和网格视图</td>
+</tr>
+<tr>
+<td>辅助图像数据</td>
+<td>如深度图，alpha图</td>
+</tr>
+<tr>
+<td>音轨数据和封面图</td>
+<td>静态图和图像序列中可以包含这些信息</td>
+</tr>
+<tr>
+<td>图像信息上下文</td>
+<td>如立体图像，时间同步，图片连拍，图像组</td>
+</tr>
+</tbody></table>
+<p>nokia的库提供了如下支持：</p>
+<table>
+<thead>
+<tr>
+<th>HEIF</th>
+<th>static</th>
+<th>grid</th>
+<th>sequence</th>
+<th>overlay</th>
+<th>identiy</th>
+<th>audio</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Display</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Demux</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Mux</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Decode</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Encode</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Camera</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h2 id="格式对比"><a href="#格式对比" class="headerlink" title="格式对比"></a>格式对比</h2><p>和其他格式对比情况：</p>
+<p><img src="https://image-static.segmentfault.com/100/619/1006199941-5b6bf1645c226" alt="img"></p>
+<h1 id="HEIF支持情况"><a href="#HEIF支持情况" class="headerlink" title="HEIF支持情况"></a>HEIF支持情况</h1><ol>
+<li>以下这些描述来自2017年，苹果刚发布支持HEIF</li>
+</ol>
+<p>苹果在iOS11系统中引入HEIF格式用于替代原来的JPG格式的图片。使用HEVC的编码技术存储图像数据，进一步减少存储容量和提升图像质量。 据WWDC17数据，使用HEIF会达到JPEG压缩比的2倍。使用iOS11系统的iPhone手机，在相机的设置中格式选择高效，拍摄下来的照片会保存为HEIF格式。</p>
+<p>由于目前其他系统(Windows&#x2F;Android)还不支持该格式图片的显示，所以在将iPhone中的照片导入到Windows PC时，iOS系统会将其转码为JPG格式图片。目前只有macOS High Sierra版本的mac系统支持HEIF格式图片，在将iPhone中的图片导入到该系统的mac上时可以保持原有的格式（一般后缀名为.heic，表示图像的编码格式为HEVC格式）。<br>iOS设备通过AirDrop发给其他iOS设备时，如果接收方为iOS 10及以下OS版本时，发送方也会将heif图片转码成JPG格式发送。</p>
+<ol start="2">
+<li>厂商支持情况</li>
+</ol>
+<p>最早被苹果公司的 iPhone 所使用，并且也在 Google 的 Android P 手机系统开始支持。微软也于 Windows 10 Build 17123 预览版开始，新增了对 HEIF 图像格式的系统原生支持。</p>
+<p>苹果关于heif的介绍：<a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2017/513/">https://developer.apple.com/videos/play/wwdc2017/513/</a></p>
+<p>iOS：</p>
+<table>
+<thead>
+<tr>
+<th>HEIF</th>
+<th>static</th>
+<th>grid</th>
+<th>sequence</th>
+<th>overlay</th>
+<th>identiy</th>
+<th>audio</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Display</td>
+<td>yes</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Demux</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Mux</td>
+<td>yes</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Decode</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Encode</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Camera</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p>Android：</p>
+<table>
+<thead>
+<tr>
+<th>HEIF</th>
+<th>static</th>
+<th>grid</th>
+<th>sequence</th>
+<th>overlay</th>
+<th>identiy</th>
+<th>audio</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Display</td>
+<td>yes</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Demux</td>
+<td>yes</td>
+<td>yes</td>
+<td>—</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Mux</td>
+<td>yes</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Decode</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Encode</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Camera</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li>web端支持情况</li>
+</ol>
+<p>nokia的展示页面可以看到HEIF demo的图片，是基于Nokia自己的解码库完成。对于浏览器来说，很多新版本的浏览器已经支持。</p>
+<h1 id="HEIF-获取"><a href="#HEIF-获取" class="headerlink" title="HEIF 获取"></a>HEIF 获取</h1><ol>
+<li>设备拍照</li>
+</ol>
+<p>通过上面的描述，其实可以看到，如果你手头有支持HEIF的设备，如iOS 11以后的设备，或者Android P以后的设备（需要厂商支持），就可以用设备拍一张照片就可以得到了。</p>
+<ol start="2">
+<li>网络下载</li>
+</ol>
+<p>当然，也可以从网络端下载，最简单的就是从Nokia官网。</p>
+<p>在gh-pages分支下存储了网页上展示的heif原始资源图片：<br><a target="_blank" rel="noopener" href="https://github.com/nokiatech/heif/tree/gh-pages/content">https://github.com/nokiatech/heif/tree/gh-pages/content</a></p>
+<p>以及更多的一些heif测试资源，包含了基本码流和配置文件：<br><a target="_blank" rel="noopener" href="https://github.com/nokiatech/heif_conformance">https://github.com/nokiatech/heif_conformance</a></p>
+<ol start="3">
+<li>工具转换</li>
+</ol>
+<p>使用Nokia的库自己转换制作heif图片：<a target="_blank" rel="noopener" href="https://github.com/nokiatech/heif">https://github.com/nokiatech/heif</a> <br><br>支持C++、JAVA API，可以在windows，Android平台方便移植使用。<br><br>如何使用可以参考：<a target="_blank" rel="noopener" href="http://jpgtoheif.com/">http://jpgtoheif.com/</a></p>
+<h1 id="HEIF-解析"><a href="#HEIF-解析" class="headerlink" title="HEIF 解析"></a>HEIF 解析</h1><h2 id="HEIF解析工具"><a href="#HEIF解析工具" class="headerlink" title="HEIF解析工具"></a>HEIF解析工具</h2><p>虽然系统有照片等工具可以直接展示HEIF，但是还是有很大局限性的。从Nokia上下载的各种heic图，在windows上的默认照片工具不是全都支持，而且对于开发而言，需要深入解析到每张图具体的格式内容。</p>
+<p>金山云基于QT开发了一款在MAC上的查看工具，和MP4Info类似，通过QT编译后，也可以在windows上运行：<a target="_blank" rel="noopener" href="https://github.com/ksvc/MediaParser">https://github.com/ksvc/MediaParser</a></p>
+<p>其实最好的是基于Nokia的库实现解析，支持规格比较完整。</p>
+<h2 id="格式解析"><a href="#格式解析" class="headerlink" title="格式解析"></a>格式解析</h2><p>以下内容部分参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b016d10a087d">https://www.jianshu.com/p/b016d10a087d</a> <br><br>以下内容部分参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35847861">https://zhuanlan.zhihu.com/p/35847861</a></p>
+<h3 id="ISO-BMFF"><a href="#ISO-BMFF" class="headerlink" title="ISO BMFF"></a>ISO BMFF</h3><p>HEIF格式是基于 ISO Base Media File Format格式衍生出来的图像封装格式，所以它的文件格式同样符合ISO Base Media File Format (ISO&#x2F;IEC 14496-12)中的定义（ ISOBMFF）。</p>
+<p>规范文档可以参考：<br><a target="_blank" rel="noopener" href="https://www.iso.org/standard/74428.html">https://www.iso.org/standard/74428.html</a> <br><br><a target="_blank" rel="noopener" href="https://mpeg.chiariglione.org/standards/mpeg-4/iso-base-media-file-format">https://mpeg.chiariglione.org/standards/mpeg-4/iso-base-media-file-format</a></p>
+<p>文件中所有的数据都存储在称为Box的数据块结构中，每个文件由若干个Box组成，每个Box有自己的类型和长度。在一个Box中还可以包含子Box，最终由一系列的Box组成完整的文件内容，结构如下图所示，图中每个方块即代表一个Box。常见的MP4文件同样是ISOBMFF结构，所以HEIF文件结构和MP4文件结构基本一致，只是用到的Box类型有区别。</p>
+<p>HEIF文件如果是单幅的静态图片的话，使用item的形式保存数据，所有item单独解码；如果保存的为图片序列的话，使用trak的方式保存，这种trak的形式同mp4的audio、video track类似， 每个轨道存储一张图片。</p>
+<p><strong>ISOBMFF格式说明</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2926667-337a35837bb3325e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="img"></p>
+<h3 id="各个box说明"><a href="#各个box说明" class="headerlink" title="各个box说明"></a>各个box说明</h3><p>heif的格式遵从上面的描述，但是有自己的扩展。<br>以具体的照片为例，它的最外一层由ftyp、meta和mdat三个Box组成，然后meta Box由包含有多个子Box，如图：<br><br><img src="https://upload-images.jianshu.io/upload_images/2926667-c485349536c1cc0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/494/format/webp" alt="img"></p>
+<ol>
+<li>ftyp</li>
+</ol>
+<p>FileType Box在文件中有且仅有一个，它的类型字段值为ftyp，位于文件起始位置，其中的brand定义了文件中所存放的媒体类型，它的定义为：<br><img src="https://upload-images.jianshu.io/upload_images/2926667-d2042c95fb0af330.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="img"></p>
+<p>在heif图片中，会扩展major_brand类型：</p>
+<table>
+<thead>
+<tr>
+<th>brand</th>
+<th>coding format</th>
+<th>image or sequence</th>
+<th>MIME subtype</th>
+<th>File Extension</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>heic</td>
+<td>HEVC Main or Main Still Picture profile</td>
+<td>image</td>
+<td>heic</td>
+<td>.heic</td>
+</tr>
+<tr>
+<td>heix</td>
+<td>HEVC Main 10</td>
+<td>image</td>
+<td>heic</td>
+<td>.heic</td>
+</tr>
+<tr>
+<td>hevc</td>
+<td>HEVC Main or Main Still Picture profile</td>
+<td>sequence</td>
+<td>heic-sequence</td>
+<td>.heic</td>
+</tr>
+<tr>
+<td>hevx</td>
+<td>HEVC Main 10</td>
+<td>sequence</td>
+<td>heic-sequence</td>
+<td>.heic</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>mdat</li>
+</ol>
+<p>media data box的类型为mdat，它用来存储实际图片数据.</p>
+<ol start="3">
+<li>meta</li>
+</ol>
+<p>不同于视频文件中的moov box，heif中的数据放在meta box中。</p>
+<p>meta box为一个container box，它里面包含有多个子box，各个子box一起定义了图像数据的位置格式等信息。</p>
+<ul>
+<li>hdlr：HandlerBox，指明该meta信息描述的媒体类型，此处为pict</li>
+<li>dinf：在此处无用</li>
+<li>pitm：PrimaryItemBox，文件中会保存有多个item，使用该box指明要主item</li>
+<li>iinf：ItemInfoBox，该box中指明文件中共有多少个item，并包含有子box表明每个item的信息</li>
+<li>iref：ItemReferenceBox，该box包含有多个子box，每个子box指明一组相互有关联的item</li>
+<li>iprp：ItemPropertiesBox，它有ipco和ipma两个子box</li>
+</ul>
+<p><em>ipco</em> box列出了所有item的所有属性</p>
+<p><em>ipma</em> box中指明每个item都有哪些属性</p>
+<p>如下图所示，ipco box列出了color、hvcC、ispe、irot、pixi等信，ipma中指明了item和属性之间的关联<br><br>id为1-48的item统一和3、1、2三个属性关联，分别是ispe、clor和hvcC，其中hvcC类型的box中数据体部分为HevcDecoderConfigurationRecord结构的数据，从中可以获取SPS、PPS、VPS等编码参数相关数据<br><br>id为49的item拥有4、5、6三个属性<br><br>id为50的item拥有7、8、9、5、10几个属性<br><br><img src="https://upload-images.jianshu.io/upload_images/2926667-487fd668f4cd95ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="img"></p>
+<ul>
+<li>idat：ItemDataBox，item的数据除了保存在mdat中，还可以保存在idat box中，具体会保存在什么位置，由iloc box中指明</li>
+<li>iloc：ItemLocationBox，该box指明了每个item在文件中的保存位置<br>如果某个item的method字段为0，表示该item的数据保存在mdat box中，且此处指明保存位置的offset字段值为在整个文件中的偏移量，<br><br>如果item的method字段为1，表明该item的数据保存在上面说的idat box中。<br><br><img src="https://upload-images.jianshu.io/upload_images/2926667-d4cf3c4e2503ca8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="img"></li>
+</ul>
+<h3 id="图像解码显示"><a href="#图像解码显示" class="headerlink" title="图像解码显示"></a>图像解码显示</h3><p>通过iloc box获取到具体某个item的数据的保存位置，即可从文件中提取出该数据，这些数据实际内容即为HEVC格式编码的数据，再利用ipco box中的hvcC数据，获取相应的SPS、PPS和VPS信息，即可使用HEVC解码器将数据解码为一幅图像。</p>
+<p>实际使用iphone7拍摄出来的照片，文件中共有51个item，对应的id为1-51，其中1-48的item信息基本一致，类型为hvc1，提取出item数据后可以使用HEVC解码器解码出图像，但是观察发现图像均为完整照片的一部分。</p>
+<p>pitm box中指明主item为49，所以显示的时候需要依据id为49的item的格式显示，该item类型为grid，该类型表明整个图像被分割成多个小图像分别进行编码保存。解析该item数据可以得到完整图像被分割为6x8的小图像，且通过iref box中可知，49号item想关联的item为1-48号item，所以要显示完整图像时需要将1-48号item分别解码，将获取的图像按照6x8的分割合并起来，形成一幅完整的图像即为最终图像。</p>
+<p>从iref 和ipco box中可知，50号item数据为图像的缩略图，它有区别与1-48的编码参数和格式，与49号item相关联，说明为49号item（即完整图像）的缩略图。51号item类型为Exif，保存了相机相关信息。</p>
+<h3 id="Still-Image-静态图"><a href="#Still-Image-静态图" class="headerlink" title="Still Image 静态图"></a>Still Image 静态图</h3><p>heif单张图片是item形式存储，可以使用工具来查看其中的信息。</p>
+<h3 id="ImageCollection-多图"><a href="#ImageCollection-多图" class="headerlink" title="ImageCollection 多图"></a>ImageCollection 多图</h3><h3 id="ImageBurst-连拍"><a href="#ImageBurst-连拍" class="headerlink" title="ImageBurst 连拍"></a>ImageBurst 连拍</h3><h3 id="深度信息"><a href="#深度信息" class="headerlink" title="深度信息"></a>深度信息</h3><h3 id="ImageSequence-动图"><a href="#ImageSequence-动图" class="headerlink" title="ImageSequence 动图"></a>ImageSequence 动图</h3><h3 id="Image-Derivations-图片派生信息"><a href="#Image-Derivations-图片派生信息" class="headerlink" title="Image Derivations 图片派生信息"></a>Image Derivations 图片派生信息</h3><h3 id="Auxiliary-Image-Storage-图片辅助数据"><a href="#Auxiliary-Image-Storage-图片辅助数据" class="headerlink" title="Auxiliary Image Storage 图片辅助数据"></a>Auxiliary Image Storage 图片辅助数据</h3><h3 id="包含用户描述信息的图片"><a href="#包含用户描述信息的图片" class="headerlink" title="包含用户描述信息的图片"></a>包含用户描述信息的图片</h3><h2 id="解析实现"><a href="#解析实现" class="headerlink" title="解析实现"></a>解析实现</h2><ol>
+<li>基于Android平台</li>
+</ol>
+<p>基于Android平台接口和能力，实现了一个简单的转换demo，参考：<a target="_blank" rel="noopener" href="https://github.com/ccfriend/HeifDemo">https://github.com/ccfriend/HeifDemo</a><br>Android提供的接口HeifWriter只能支持静态的图片生成。</p>
+<ol start="2">
+<li>基于nokia的库做转换</li>
+</ol>
+<p>基于nokia的库使用有一个参考，可以基于FFMPEG先生成hevc码流，然后通过json文件生成最终的heic文件。<a target="_blank" rel="noopener" href="http://jpgtoheif.com/">http://jpgtoheif.com/</a></p>
+<ol start="3">
+<li>基于开源的libheif</li>
+</ol>
+<p>有个开源的libheif库用于支持heif和avif的解析：<a target="_blank" rel="noopener" href="https://github.com/strukturag/libheif">https://github.com/strukturag/libheif</a></p>
+<p>可以使用在线版进行heif的验证：<a target="_blank" rel="noopener" href="https://strukturag.github.io/libheif/">https://strukturag.github.io/libheif/</a></p>
+<p>支持的功能还是比较全的：<br>libheif has support for decoding</p>
+<ul>
+<li>tiled images</li>
+<li>alpha channels</li>
+<li>thumbnails</li>
+<li>reading EXIF and XMP metadata</li>
+<li>reading the depth channel</li>
+<li>multiple images in a file</li>
+<li>image transformations (crop, mirror, rotate)</li>
+<li>overlay images</li>
+<li>plugin interface to add alternative codecs for additional formats (AVC, JPEG)</li>
+<li>decoding of files while downloading (e.g. extract image size before file has been completely downloaded)</li>
+<li>reading color profiles</li>
+<li>heix images (10 and 12 bit, chroma 4:2:2)</li>
+</ul>
+<p>The encoder supports:</p>
+<ul>
+<li>lossy compression with adjustable quality</li>
+<li>lossless compression</li>
+<li>alpha channels</li>
+<li>thumbnails</li>
+<li>save multiple images to a file</li>
+<li>save EXIF and XMP metadata</li>
+<li>writing color profiles</li>
+<li>10 and 12 bit images</li>
+<li>monochrome images</li>
+</ul>
+<ol start="4">
+<li>GIMP支持</li>
+</ol>
+<p>同上，这个厂商支持了libheif在GIMP中的插件实现：<a target="_blank" rel="noopener" href="https://github.com/strukturag/heif-gimp-plugin">https://github.com/strukturag/heif-gimp-plugin</a></p>
+<p>这个是新的GIMP版本直接支持的：<br><br>Note: this plugin is part of GIMP v2.10.2 (or Windows v2.10.4 binaries). You only need to manually install this plugin if you are running a lower version of GIMP.</p>
+<ol start="5">
+<li>ffmpeg的支持</li>
+</ol>
+<h1 id="Android平台实现完整支持"><a href="#Android平台实现完整支持" class="headerlink" title="Android平台实现完整支持"></a>Android平台实现完整支持</h1><p>从上面描述看，目前完整支持HEIF的全价值功能，还是有不少工作量的。包括：</p>
+<ol>
+<li>图片解码</li>
+<li>各种heif特性的解析，目前看是都有</li>
+<li>hevc的编解码支持，目前看可以使用硬解，配合软解</li>
+<li>解码后显示，目前只有静态图，缺失较多，是扩展ImageView，GifMovie，等等</li>
+<li>图片编码，目前也只有静态图，且heiwriter 包支持，非SDK支持</li>
+<li>转码，在效率不高的情况下，需要先解图为Bitmap，然后压缩YUV，最后生成</li>
+<li>相机通路，拍照支持<br><br>google有个支持说明：<a target="_blank" rel="noopener" href="https://source.android.google.cn/devices/camera/heif">https://source.android.google.cn/devices/camera/heif</a> <br><br>HEIC 图片由摄像头传输框架生成，请求来自相机 HAL 的未压缩图片并将其发送到媒体子系统，以便由 HEIC 或 HEVC 编码器进行编码。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/image/" rel="tag"># image</a>
+              <a href="/tags/HEIF/" rel="tag"># HEIF</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/08/NexT-%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96/" rel="prev" title="NexT 主题优化">
+      <i class="fa fa-chevron-left"></i> NexT 主题优化
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/01/audio_latency/" rel="next" title="audio latency">
+      audio latency <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFHEIF%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">什么是HEIF格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HEIF-%E7%89%B9%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">HEIF 特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Heif-%E7%89%B9%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">Heif 特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="nav-number">2.2.</span> <span class="nav-text">格式对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HEIF%E6%94%AF%E6%8C%81%E6%83%85%E5%86%B5"><span class="nav-number">3.</span> <span class="nav-text">HEIF支持情况</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HEIF-%E8%8E%B7%E5%8F%96"><span class="nav-number">4.</span> <span class="nav-text">HEIF 获取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HEIF-%E8%A7%A3%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">HEIF 解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HEIF%E8%A7%A3%E6%9E%90%E5%B7%A5%E5%85%B7"><span class="nav-number">5.1.</span> <span class="nav-text">HEIF解析工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E8%A7%A3%E6%9E%90"><span class="nav-number">5.2.</span> <span class="nav-text">格式解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ISO-BMFF"><span class="nav-number">5.2.1.</span> <span class="nav-text">ISO BMFF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E4%B8%AAbox%E8%AF%B4%E6%98%8E"><span class="nav-number">5.2.2.</span> <span class="nav-text">各个box说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E8%A7%A3%E7%A0%81%E6%98%BE%E7%A4%BA"><span class="nav-number">5.2.3.</span> <span class="nav-text">图像解码显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Still-Image-%E9%9D%99%E6%80%81%E5%9B%BE"><span class="nav-number">5.2.4.</span> <span class="nav-text">Still Image 静态图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ImageCollection-%E5%A4%9A%E5%9B%BE"><span class="nav-number">5.2.5.</span> <span class="nav-text">ImageCollection 多图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ImageBurst-%E8%BF%9E%E6%8B%8D"><span class="nav-number">5.2.6.</span> <span class="nav-text">ImageBurst 连拍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E4%BF%A1%E6%81%AF"><span class="nav-number">5.2.7.</span> <span class="nav-text">深度信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ImageSequence-%E5%8A%A8%E5%9B%BE"><span class="nav-number">5.2.8.</span> <span class="nav-text">ImageSequence 动图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Image-Derivations-%E5%9B%BE%E7%89%87%E6%B4%BE%E7%94%9F%E4%BF%A1%E6%81%AF"><span class="nav-number">5.2.9.</span> <span class="nav-text">Image Derivations 图片派生信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Auxiliary-Image-Storage-%E5%9B%BE%E7%89%87%E8%BE%85%E5%8A%A9%E6%95%B0%E6%8D%AE"><span class="nav-number">5.2.10.</span> <span class="nav-text">Auxiliary Image Storage 图片辅助数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E7%94%A8%E6%88%B7%E6%8F%8F%E8%BF%B0%E4%BF%A1%E6%81%AF%E7%9A%84%E5%9B%BE%E7%89%87"><span class="nav-number">5.2.11.</span> <span class="nav-text">包含用户描述信息的图片</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.3.</span> <span class="nav-text">解析实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android%E5%B9%B3%E5%8F%B0%E5%AE%9E%E7%8E%B0%E5%AE%8C%E6%95%B4%E6%94%AF%E6%8C%81"><span class="nav-number">6.</span> <span class="nav-text">Android平台实现完整支持</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ccfriend"
+      src="/images/myavatar.png">
+  <p class="site-author-name" itemprop="name">ccfriend</p>
+  <div class="site-description" itemprop="description">技如人生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ccfriend" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ccfriend" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ccfriend@sina.cn" title="E-Mail → mailto:ccfriend@sina.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ccfriend</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">65k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">59 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="//code.tidio.co/.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
