@@ -38,6 +38,7 @@ tags: [rust]
 - vscode + rust-analyzer插件 + copilot（可选）
 - clion
 - helix（开源类 vim ，rust实现）+ ra插件
+
 Rust 镜像
 - 字节跳动镜像源 https://rsproxy.cn/
 
@@ -81,3 +82,28 @@ Rust 镜像
 
 ### 金发姑娘原则
 适合的才是最好的。*金发姑娘和三只熊的故事，选择了不冷不热的粥，不软不硬的椅子, 不大不小的床*
+
+## 源码结构
+
+crates
+- alloc 内存分配相关，一般做嵌入式的时候使用
+- core 核心库，一般做嵌入式的时候使用
+- std 在核心库的基础上增加一些功能
+
+## 编译过程
+| 前端 Rustc | 后端 |
+| ----------| ------------ |
+|先编译成Token -> AST 抽象语法树 -> HIR 高级中间语言 -> MIR 中级中间语言 -> LLVM IR 	| LLVM asm|
+| | Cranelift Debug模式下使用  |
+||GCC release 正在支持|
+|GCC 前端支持rust|GCC 后端|
+
+| 过程 | 描述 |
+| ----------| ------------ |
+|Token||
+|AST||
+|HIR||
+| MIR | 代码安全检查，静态分析工具等  |
+|LLVM IR||
+
+
