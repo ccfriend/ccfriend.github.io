@@ -122,17 +122,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">7</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">9</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">8</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a>
 
   </li>
   </ul>
@@ -158,6 +158,343 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccfriend.github.io/2022/10/31/rust_learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myavatar.png">
+      <meta itemprop="name" content="ccfriend">
+      <meta itemprop="description" content="技如人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术书房">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/31/rust_learning/" class="post-title-link" itemprop="url">rust 学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-31 09:30:21" itemprop="dateCreated datePublished" datetime="2022-10-31T09:30:21+08:00">2022-10-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-13 11:50:04" itemprop="dateModified" datetime="2022-11-13T11:50:04+08:00">2022-11-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/lang/" itemprop="url" rel="index"><span itemprop="name">lang</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="rust-学习"><a href="#rust-学习" class="headerlink" title="rust 学习"></a>rust 学习</h1><h2 id="rust-学习资源"><a href="#rust-学习资源" class="headerlink" title="rust 学习资源"></a>rust 学习资源</h2><p>官方参考：</p>
+<ul>
+<li>Rust 官网：<a target="_blank" rel="noopener" href="https://www.rust-lang.org/">https://www.rust-lang.org/</a></li>
+<li>Rust 发布版本查阅：<a target="_blank" rel="noopener" href="https://releases.rs/">https://releases.rs/</a></li>
+<li>Rust 语言参考：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/reference/">https://doc.rust-lang.org/reference/</a></li>
+<li>官方 Rust The Book: <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/">https://doc.rust-lang.org/book/</a></li>
+</ul>
+<p>其他总结：</p>
+<ul>
+<li>Rust 语言之旅：<a target="_blank" rel="noopener" href="https://tourofrust.com/TOC_zh-cn.html">https://tourofrust.com/TOC_zh-cn.html</a></li>
+<li>Ferrocene 语言规范：<a target="_blank" rel="noopener" href="https://spec.ferrocene.dev/">https://spec.ferrocene.dev/</a></li>
+<li>Rust 语言圣经：<a target="_blank" rel="noopener" href="https://course.rs/about-book.html">https://course.rs/about-book.html</a></li>
+</ul>
+<h2 id="rust-工具和相关生态"><a href="#rust-工具和相关生态" class="headerlink" title="rust 工具和相关生态"></a>rust 工具和相关生态</h2><ul>
+<li>Crates 仓库： <a target="_blank" rel="noopener" href="https://crates.io/">https://crates.io/</a></li>
+<li>Cargo 工具<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/rust-lang/cargo">https://github.com/rust-lang/cargo</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/">https://doc.rust-lang.org/cargo/</a></li>
+</ul>
+</li>
+<li>cargo 插件介绍<ul>
+<li>cargo-clippy: <a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust-clippy">https://github.com/rust-lang/rust-clippy</a></li>
+<li>cargo-vet: <a target="_blank" rel="noopener" href="https://mozilla.github.io/cargo-vet/">https://mozilla.github.io/cargo-vet/</a></li>
+</ul>
+</li>
+<li>Rust 语言 、 Rust for linux 和 wasmtime &#x2F; tauri &#x2F;slint 开源项目：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust">https://github.com/rust-lang/rust</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Rust-for-Linux/linux">https://github.com/Rust-for-Linux/linux</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">https://github.com/bytecodealliance/wasmtime</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tauri-apps/tauri">https://github.com/tauri-apps/tauri</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/slint-ui/slint">https://github.com/slint-ui/slint</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="本地开发环境"><a href="#本地开发环境" class="headerlink" title="本地开发环境"></a>本地开发环境</h2><p>编辑器&#x2F;IDE 推荐</p>
+<ul>
+<li>vscode + rust-analyzer插件 + copilot（可选）</li>
+<li>clion</li>
+<li>helix（开源类 vim ，rust实现）+ ra插件</li>
+</ul>
+<p>Rust 镜像</p>
+<ul>
+<li>字节跳动镜像源 <a target="_blank" rel="noopener" href="https://rsproxy.cn/">https://rsproxy.cn/</a></li>
+</ul>
+<h2 id="rust在线调测工具"><a href="#rust在线调测工具" class="headerlink" title="rust在线调测工具"></a>rust在线调测工具</h2><ul>
+<li>Rust playground 支持单个 Rust 文件，可以方便地在线练习 Rust 语法 和 共享代码进行交流： <a target="_blank" rel="noopener" href="https://play.rust-lang.org/">https://play.rust-lang.org/</a></li>
+<li>Replit 支持cargo 和 crate，功能较为丰富。<a target="_blank" rel="noopener" href="https://replit.com/languages/rust">https://replit.com/languages/rust</a> </li>
+<li>Godbolt，支持 Rust ，可以查看编译后汇编。<a target="_blank" rel="noopener" href="https://godbolt.org/">https://godbolt.org/</a></li>
+</ul>
+<h2 id="rust测试"><a href="#rust测试" class="headerlink" title="rust测试"></a>rust测试</h2><ul>
+<li>Rust by example: <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/rust-by-example/">https://doc.rust-lang.org/rust-by-example/</a></li>
+<li>Rustlings (Rust 知识检测)：<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rustlings">https://github.com/rust-lang/rustlings</a></li>
+<li>Rust Quiz   (Rust 知识检测)  <a target="_blank" rel="noopener" href="https://github.com/dtolnay/rust-quiz">https://github.com/dtolnay/rust-quiz</a></li>
+</ul>
+<h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h2><h3 id="面向用户"><a href="#面向用户" class="headerlink" title="面向用户"></a>面向用户</h3><ul>
+<li>可靠性 Reliable<ul>
+<li>如果编译成功，就可以正常工作</li>
+<li>类型安全</li>
+<li>不隐式转换</li>
+</ul>
+</li>
+<li>高性能 Performant<ul>
+<li>既高效又能保证性能，<strong>零成本抽象</strong></li>
+<li>所有权，内存安全的保证</li>
+<li>迭代器</li>
+<li>闭包</li>
+<li>异步</li>
+<li>模块性问题</li>
+<li>动态分发？</li>
+</ul>
+</li>
+<li>支持性<ul>
+<li>语言、工具、社区支持</li>
+<li>错误提示、修正很完善</li>
+</ul>
+</li>
+<li>生产力<ul>
+<li>和高性能是有冲突的</li>
+</ul>
+</li>
+<li>透明性<ul>
+<li>暴露底层的细节</li>
+</ul>
+</li>
+<li>多样性<ul>
+<li>嵌入式等领域</li>
+</ul>
+</li>
+</ul>
+<h3 id="面向社区"><a href="#面向社区" class="headerlink" title="面向社区"></a>面向社区</h3><ul>
+<li>信任和委托</li>
+<li>贡献</li>
+</ul>
+<h3 id="金发姑娘原则"><a href="#金发姑娘原则" class="headerlink" title="金发姑娘原则"></a>金发姑娘原则</h3><p>适合的才是最好的。<em>金发姑娘和三只熊的故事，选择了不冷不热的粥，不软不硬的椅子, 不大不小的床</em></p>
+<h2 id="源码结构"><a href="#源码结构" class="headerlink" title="源码结构"></a>源码结构</h2><p>crates</p>
+<ul>
+<li>alloc 内存分配相关，一般做嵌入式的时候使用</li>
+<li>core 核心库，一般做嵌入式的时候使用</li>
+<li>std 在核心库的基础上增加一些功能</li>
+</ul>
+<h2 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h2><table>
+<thead>
+<tr>
+<th>前端 Rustc</th>
+<th>后端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>先编译成Token -&gt; AST 抽象语法树 -&gt; HIR 高级中间语言 -&gt; MIR 中级中间语言 -&gt; LLVM IR</td>
+<td>LLVM asm</td>
+</tr>
+<tr>
+<td></td>
+<td>Cranelift Debug模式下使用</td>
+</tr>
+<tr>
+<td></td>
+<td>GCC release 正在支持</td>
+</tr>
+<tr>
+<td>GCC 前端支持rust</td>
+<td>GCC 后端</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>过程</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Token</td>
+<td></td>
+</tr>
+<tr>
+<td>AST</td>
+<td></td>
+</tr>
+<tr>
+<td>HIR</td>
+<td></td>
+</tr>
+<tr>
+<td>MIR</td>
+<td>代码安全检查，静态分析工具等</td>
+</tr>
+<tr>
+<td>LLVM IR</td>
+<td></td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccfriend.github.io/2022/07/13/c++_programming_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myavatar.png">
+      <meta itemprop="name" content="ccfriend">
+      <meta itemprop="description" content="技如人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术书房">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/13/c++_programming_1/" class="post-title-link" itemprop="url">C++Programming(一)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-13 16:00:00" itemprop="dateCreated datePublished" datetime="2022-07-13T16:00:00+08:00">2022-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-13 11:50:04" itemprop="dateModified" datetime="2022-11-13T11:50:04+08:00">2022-11-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c/" itemprop="url" rel="index"><span itemprop="name">c++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="C-Programming-一"><a href="#C-Programming-一" class="headerlink" title="C++ Programming(一)"></a>C++ Programming(一)</h1><h2 id="可变参数模板"><a href="#可变参数模板" class="headerlink" title="可变参数模板"></a>可变参数模板</h2><p>可变参数模板（variadic templates）是C++11新增的特性之一，它对参数进行了高度泛化，它能表示0到任意个数、任意类型的参数。相比C++98&#x2F;03，类模板和函数模板中只能含固定数量的模板参数，可变模板参数无疑是一个巨大的改进。然而由于可变模板参数比较抽象，使用起来需要一定的技巧，所以它也是C++11中最难理解和掌握的特性之一。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/zh-hans/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E6%A8%A1%E6%9D%BF">https://zh.m.wikipedia.org/zh-hans/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E6%A8%A1%E6%9D%BF</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qicosmos/p/4325949.html">https://www.cnblogs.com/qicosmos/p/4325949.html</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/13/c++_programming_1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1008,20 +1345,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1066,13 +1403,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">65k</span>
+    <span title="站点总字数">68k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">59 分钟</span>
+    <span title="站点阅读时长">1:01</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
